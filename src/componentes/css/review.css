@@ -1,0 +1,14 @@
+.reviews{
+    display: inline-block;
+ 
+    min-height: 100vh;
+}
+.input-review{
+    display: none;
+   
+}
+.star{
+    cursor: pointer;
+    transition: color 200ms;
+   background-color: black;
+}

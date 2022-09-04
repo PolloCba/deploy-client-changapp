@@ -1,0 +1,53 @@
+.navBar {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-around;
+    align-items: center;
+    height: 8%;
+    width: 100%;
+    /* position: fixed; */
+    padding: 10px 0;
+    background-color: #2f486b;
+    color: white;
+    margin: flex-start;
+    top: 0%;
+    z-index: 1;
+}
+
+.app-title {
+    color: white;
+    text-decoration: none;
+}
+
+
+.btn-container {
+    
+    position: absolute;
+    right: 2em;
+    display: flex;
+    gap: 10px;
+}
+
+.anon-btn {
+    background-color: aliceblue !important;
+
+
+}
+
+.anon-btn:hover {
+    background-color: darkslategrey !important;
+}
+
+.user-btn {
+    background-color: darkslategrey !important;
+
+}
+
+.user-btn:hover {
+    background-color: aliceblue !important;
+}
+
+
+
+
+
