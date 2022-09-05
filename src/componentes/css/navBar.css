@@ -5,12 +5,12 @@
     align-items: center;
     height: 8%;
     width: 100%;
-    /* position: fixed; */
+    position: sticky;
+    top: 0;
     padding: 10px 0;
-    background-color: #2f486b;
+    background-color: #1F2937;
     color: white;
     margin: flex-start;
-    top: 0%;
     z-index: 1;
 }
 
@@ -29,23 +29,23 @@
 }
 
 .anon-btn {
-    background-color: aliceblue !important;
+    background-color: rgba(240, 248, 255, 0.74) !important;
 
 
 }
 
 .anon-btn:hover {
-    background-color: darkslategrey !important;
+    background-color: aliceblue !important;
 }
 
-.user-btn {
+/* .user-btn {
     background-color: darkslategrey !important;
 
 }
 
 .user-btn:hover {
     background-color: aliceblue !important;
-}
+} */
 
 
 

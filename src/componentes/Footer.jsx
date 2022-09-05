@@ -14,16 +14,16 @@ export default function Footer() {
     dispatch(getAllCategories());
   }, [dispatch]);
 
-  const sendMail = (e) => {
-    e.preventDefault();
-    let body = document.getElementById("message");
-    let subjetLine = "Formulario de Contacto";
-    window.location.href =
-      "mailto:pfhenrychangapp@gmail.com?subject=" +
-      subjetLine +
-      "&body=" +
-      body;
-  };
+  // const sendMail = (e) => {
+  //   e.preventDefault();
+  //   let body = document.getElementById("message");
+  //   let subjetLine = "Formulario de Contacto";
+  //   window.location.href =
+  //     "mailto:pfhenrychangapp@gmail.com?subject=" +
+  //     subjetLine +
+  //     "&body=" +
+  //     body;
+  // };
 
   return (
     <div className="footer">
@@ -125,7 +125,12 @@ export default function Footer() {
         </ul>
       </div>
 
-      <form onSubmit={(e) => sendMail(e)} className="formulario">
+      <form
+        action="mailto:pfhenrychangapp@gmail.com"
+        method="post"
+        encType="text/plain"
+        className="formulario"
+      >
         <h3 className="formulario__titulo">Contactanos</h3>
         <div className="formulario__campo">
           <label>Email</label>
@@ -149,9 +154,12 @@ export default function Footer() {
             data-tipo="message"
           ></textarea>
         </div>
-        <button className="formulario__boton" type="submit">
+        <a
+          href="mailto:pfhenrychangapp@gmail.com"
+          className="formulario__boton"
+        >
           Enviar mensaje
-        </button>
+        </a>
       </form>
     </div>
   );

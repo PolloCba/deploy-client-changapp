@@ -8,6 +8,7 @@ import {
 } from "../../../redux/actions";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import toast, {Toaster} from 'react-hot-toast'
 
 function validate(service) {
   let error = {};
@@ -32,6 +33,7 @@ export default function UpdateService() {
     day: [],
     price: "",
     description: "",
+    email: "",
   });
   const [error, setError] = useState("");
 
@@ -45,6 +47,8 @@ export default function UpdateService() {
     dispatch(getAllServices());
     dispatch(getServiceById(param.id));
   }, [dispatch, param.id]);
+
+  console.log(idService[0].user.email, "SERVICE");
 
   //PARA LEER LOS CAMBIOS
   const handleOnChange = (e) => {
@@ -81,6 +85,7 @@ export default function UpdateService() {
     if (service.price === "") service.price = idService[0]?.price;
     if (service.description === "")
       service.description = idService[0]?.description;
+    service.email = idService[0].user.email;
     if (service.day === "") service.day = idService[0]?.day;
     if (
       noti.message === "" &&
@@ -93,11 +98,15 @@ export default function UpdateService() {
     }
     dispatch(postNotification(noti));
     dispatch(updateService(param.id, service));
-    navigate("/settings/services");
+    toast.success('Servicio actualizado')
+    setTimeout(() => {
+      navigate("/settings/services");
+    }, 2000);
   };
 
   return (
     <Box sx={{ width:'70%', display: "flex", flexDirection: "column", gap: "20px" }}>
+      <Toaster position="top-center" reverseOrder={false} />
       <Typography variant="h6">Modificar servicio</Typography>
       {error && <p>{error.name}</p>}
       <form

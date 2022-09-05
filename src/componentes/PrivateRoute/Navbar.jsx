@@ -24,15 +24,15 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const styles = {
   container: {
-    padding: "20px 0 20px 0",
+    padding: "10px 0",
     backgroundColor: "#1F2937",
-    color: "white",
+    color: "#fff",
+    
   },
   button: {
-    color: "white",
+    color: "#fff",
   },
   asd: {
-
     textDecoration: 'none',
     color: '#fff'
   },

@@ -31,7 +31,7 @@ const handleAnonymous = async (e) => {
                 <NavLink className='app-title'  to='/'><Typography variant="h4">ChangApp</Typography></NavLink>
                 <Box className="btn-container">
                     <Button className="anon-btn"   onClick={handleAnonymous} >Comienza a buscar</Button>
-                    <Button className="user-btn" onClick={() => {navigate('/login')}}>Registrate/Inicia sesión</Button>
+                    <Button className="anon-btn" onClick={() => {navigate('/login')}}>Registrate/Inicia sesión</Button>
                 </Box>
             </Box>
         </div>)

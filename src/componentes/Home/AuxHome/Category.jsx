@@ -38,7 +38,7 @@ export default function Category() {
             console.log(category);
             return (
               <Link key={e.id} to={`/home/${e.name}`}>
-                <div className="card-category-container" >
+                <div >
                   <div className="card-category">
                     <h3 className="title-category">{e.name}</h3>
                     <img src={e.img} alt={e.name} height="200px" width="300px" />

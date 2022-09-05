@@ -31,12 +31,11 @@ export default function Guardar() {
     return (
       <div>
         <Navbar />
-        {/* <SearchBar /> */}
         <div>
           <Category />
         </div>
         <Box className="rev-section">
-          <Typography variant="h4" sx={{position: 'relative ',margin: '70px auto 150px', borderBottom:'solid 2px black', paddingBottom: '40px', width:'700px'}}>Algunas de las reviews de nuestros usuarios</Typography>
+          <Typography variant="h4" sx={{position: 'relative ',margin: '70px auto', borderBottom:'solid 2px black', paddingBottom: '40px', width:'700px'}}>Algunas de las reviews de nuestros usuarios</Typography>
           <Reviews />
         </Box>
         <Footer />

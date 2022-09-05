@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { FaStar } from "react-icons/fa";
 import "./css/review.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +6,6 @@ import {
   allRequest,
   deleteRequest,
   getAllServices,
-  getServiceById,
   getUserEmail,
   postNotification,
   postReview,
@@ -17,7 +15,6 @@ import toast, { Toaster } from "react-hot-toast";
 import Navbar from "./PrivateRoute/Navbar";
 import Footer from "./Footer";
 
-import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid";
 import { useAuth } from "../context/authContext";
 
 export default function Review({ user_id }) {
@@ -59,6 +56,7 @@ export default function Review({ user_id }) {
         author_id: userData[0]?.id,
         user_id: service[0]?.user_id,
         email: service[0]?.user.email,
+
       })
     );
     dispatch(
@@ -73,7 +71,8 @@ export default function Review({ user_id }) {
     toast.success("Gracias por dejar su reseña");
     setTimeout(() => {
       navigate("/home");
-    }, 2000);
+    }, 1000);
+
   };
 
   function handleInput(e) {
@@ -87,36 +86,44 @@ export default function Review({ user_id }) {
     <div>
       <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
-      <h3>
-        Reseña:{" "}
-        <input value={rev} onChange={(e) => handleInput(e)} type="text" />
-      </h3>
-      {[...Array(5)].map((star, i) => {
-        const ratingValue = i + 1;
+      {request.length === 0 ? (
+        <p>Ya realizaste una review del servicio, no puedes realizar mas</p>
+      ) : (
+        <div>
+          <h3>
+            Reseña: <textarea value={rev} onChange={(e) => handleInput(e)} />
+          </h3>
+          {[...Array(5)].map((star, i) => {
+            const ratingValue = i + 1;
 
-        return (
-          <div className="reviews">
-            <label>
-              <input
-                className="input-review"
-                type="radio"
-                name="rate"
-                value={ratingValue}
-                onClick={() => setRating(ratingValue)}
-              />
-              <FaStar
-                className="star"
-                color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-                size={50}
-                onMouseEnter={() => setHover(ratingValue)}
-                onMouseLeave={() => setHover(null)}
-              />
-              ;
-            </label>
-          </div>
-        );
-      })}
-      <button onClick={postRevieew}>Enviar</button>
+            return (
+              <div className="reviews">
+                <label>
+                  <input
+                    className="input-review"
+                    type="radio"
+                    name="rate"
+                    value={ratingValue}
+                    onClick={() => setRating(ratingValue)}
+                  />
+                  <FaStar
+                    className="star"
+                    color={
+                      ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"
+                    }
+                    size={50}
+                    onMouseEnter={() => setHover(ratingValue)}
+                    onMouseLeave={() => setHover(null)}
+                  />
+                  ;
+                </label>
+              </div>
+            );
+          })}
+          <button onClick={postRevieew}>Enviar</button>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

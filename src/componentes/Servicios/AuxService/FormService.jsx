@@ -6,7 +6,7 @@ import {
   getAllServices,
   getUserEmail,
   postService,
-  postNotification
+  postNotification,
 } from "../../../redux/actions";
 import { useAuth } from "../../../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,8 +23,6 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 
 import toast, { Toaster } from "react-hot-toast";
-
-
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -67,7 +65,6 @@ export default function FormService() {
     hours: [],
     category_id: "",
     email: "",
-
   });
   //TRAER DATOS DEL USUARIO
   const serviceState = useSelector((state) => state.services);
@@ -78,7 +75,6 @@ export default function FormService() {
   const servicioRepetido = filtroParaNoRepetir.filter(
     (e) => e.name === service?.name
   );
-
 
   const disptach = useDispatch();
   const categories = useSelector((state) => state.categories);
@@ -175,8 +171,6 @@ export default function FormService() {
     if (element.value === "23:30") {
       element.value = "00:00";
     } else {
-
-
       if (Number(input[1]) === 30) {
         input[1] = "00";
         input[0] = (Number(input[0]) + 1).toString();
@@ -283,13 +277,12 @@ export default function FormService() {
         hours: [],
         email: "",
       });
-      toast.success('Servicio publicado con exito')
+      toast.success("Servicio publicado con exito");
       setTimeout(() => {
-        navigate('/home')
+        navigate("/home");
       }, 2000);
     }
   };
-
 
   return (
     <Box style={styles.container}>
@@ -321,9 +314,7 @@ export default function FormService() {
                 <FormControl fullWidth sx={{ padding: "7px 0" }}>
                   <InputLabel id="categoryLabel">Categoría</InputLabel>
                   <Select
-
                     value={service.category}
-
                     onChange={(e) => handleCat(e.target.value)}
                   >
                     {categories?.map((el) => {
@@ -455,6 +446,7 @@ export default function FormService() {
                     {service?.hours?.map((el) => {
                       return (
                         <Box
+                          key={el.id}
                           sx={{
                             display: "flex",
                             alignItems: "center",

@@ -39,7 +39,7 @@ export default function AllCategorys() {
                 <p>{e.description}</p>
                 <p>${e.price}</p>
                 <Button>
-                  <Link to={`/home/services/${e.id}`}>Haz tu reserva</Link>
+                  <Link to={`/home/user/${e.name}`}>Haz tu reserva</Link>
                 </Button>
               </Box>
             );

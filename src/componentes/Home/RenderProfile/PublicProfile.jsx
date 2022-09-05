@@ -5,9 +5,9 @@ import { allUsers, getAllServices } from "../../../redux/actions";
 import Footer from "../../Footer";
 import Navbar from "../../PrivateRoute/Navbar";
 import { Link } from "react-router-dom";
-import Rating from '@mui/material/Rating';
-import Dialog from '@mui/material/Dialog';
-import CloseIcon from '@mui/icons-material/Close';
+import Rating from "@mui/material/Rating";
+import Dialog from "@mui/material/Dialog";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function PublicProfile() {
   let userServices = useSelector((state) => state.services);
@@ -16,9 +16,9 @@ export default function PublicProfile() {
   const dispatch = useDispatch();
   const filterUser = allUser.filter((n) => n.id === param.id);
   userServices = userServices.filter((e) => e.user?.id === param.id);
-  const filtrarReviews = allUser[0]?.reviews.slice(0,2)
+  const filtrarReviews = allUser[0]?.reviews.slice(0, 2);
   //ESTADO PARA EL POP UP
-  const [btn, setBtn] = useState(false)
+  const [btn, setBtn] = useState(false);
 
   useEffect(() => {
     dispatch(getAllServices());
@@ -29,12 +29,11 @@ export default function PublicProfile() {
     e.preventDefault();
     window.history.back();
   };
-  
+
   const handleOpen = (e) => {
-    e.preventDefault()
-    setBtn(!btn)
-  }
-  
+    e.preventDefault();
+    setBtn(!btn);
+  };
 
   return (
     <div>
@@ -55,7 +54,7 @@ export default function PublicProfile() {
           {userServices &&
             userServices.map((s) => {
               return (
-                <div>
+                <div key={s.id}>
                   <h3>{s.name}</h3>
                   <p>{s.price}</p>
                   <p>{filterUser[0]?.location}</p>
@@ -67,31 +66,36 @@ export default function PublicProfile() {
             })}
         </div>
       </div>
-      <div style={{ textAlign: 'center'}}>
-        {
-          filterUser[0]?.reviews?.length === 0 ? <p>Sin reseñas por el momento </p>
-          : filtrarReviews?.map(e => {
-            return(
-              <div>
-                <span><Rating defaultValue={e.rate} readOnly/> </span>
+      <div style={{ textAlign: "center" }}>
+        {filterUser[0]?.reviews?.length === 0 ? (
+          <p>Sin reseñas por el momento </p>
+        ) : (
+          filtrarReviews?.map((e) => {
+            return (
+              <div key={e.id}>
+                <span>
+                  <Rating defaultValue={e.rate} readOnly />{" "}
+                </span>
                 <p>{e.message}</p>
               </div>
-            )
+            );
           })
-        }
+        )}
         <button onClick={handleOpen}>Ver mas</button>
         <Dialog open={btn}>
-          <span onClick={handleOpen}><CloseIcon/></span>
-          {
-            filterUser[0]?.reviews.map(r => {
-              return(
-                <div>
-                  <span><Rating defaultValue={r.rate} readOnly/> </span>
-                  <p>{r.message}</p>
-                </div>
-              )
-            })
-          }
+          <span onClick={handleOpen}>
+            <CloseIcon />
+          </span>
+          {filterUser[0]?.reviews.map((r) => {
+            return (
+              <div>
+                <span>
+                  <Rating defaultValue={r.rate} readOnly />{" "}
+                </span>
+                <p>{r.message}</p>
+              </div>
+            );
+          })}
         </Dialog>
       </div>
       <Footer />

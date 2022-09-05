@@ -1,6 +1,6 @@
 const styles = {
     container: {
-      padding:'30px',
+      // padding:'30px',
       minHeight:'100vh',
       height:`calc(100vh - 82px)`,
       padding:'20px',

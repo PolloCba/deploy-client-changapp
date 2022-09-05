@@ -8,10 +8,10 @@ import {
   postNotification,
 } from "../../../redux/actions";
 import { Link } from "react-router-dom";
-import { Button, Box, Typography } from "@mui/material";
-import styles from "./style.js";
+import { Button, Box, Typography, Avatar } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import Review from "../../Review";
+import '../../css/empty.css'
+
 
 export default function StateRequester() {
   const { user } = useAuth();
@@ -28,13 +28,6 @@ export default function StateRequester() {
     dispatch(getUserEmail(user?.email));
     dispatch(allRequest());
   }, [dispatch, user?.email]);
-
-  const handleOnClick = (e) => {
-    e.preventDefault();
-    dispatch(deleteRequest(e.target.id));
-    alert("Solicitud cancelada exitosamente");
-    window.location.reload(true);
-  };
 
   //PARA ENVIAR NOTIFIACION CON MENSAJE PERSONALIZADO
   const [noti, setNoti] = useState({
@@ -81,120 +74,116 @@ export default function StateRequester() {
     e.preventDefault();
     dispatch(deleteRequest(e.target.id));
     window.location.reload(true);
-  }
+  };
 
   const styles = {
     acepted: {
-      display:'flex', 
-      border:'solid #58CC22 2px', 
-      margin:'2%', 
-      padding:'2%', 
-      borderRadius:'10px',
-      alignItems:'center'
+      display: "flex",
+      border: "solid #58CC22 2px",
+      margin: "2%",
+      padding: "2%",
+      borderRadius: "10px",
+      alignItems: "center",
     },
     rejected: {
-      display:'flex', 
-      border:'solid #E00A0A 2px', 
-      margin:'2%', 
-      padding:'2%', 
-      borderRadius:'10px',
-      alignItems:'center'
+      display: "flex",
+      border: "solid #E00A0A 2px",
+      margin: "2%",
+      padding: "2%",
+      borderRadius: "10px",
+      alignItems: "center",
     },
     pending: {
-      display:'flex', 
-      border:'solid grey 2px', 
-      margin:'2%', 
-      padding:'2%', 
-      borderRadius:'10px',
-      alignItems:'center'
-    }
-  }
+      display: "flex",
+      border: "solid grey 2px",
+      margin: "2%",
+      padding: "2%",
+      borderRadius: "10px",
+      alignItems: "center",
+    },
+  };
+
 
   return (
-    <Box sx={{ width: "70%" }} style={hide === false ? styles.con : styles.no}>
+
+    <Box className="section" sx={{ width: "70%" }} style={hide === false ? styles.con : styles.no}>
+      
+      <Typography variant="h4">Estado de los servicios solicitados</Typography>
+
       {filterById.length === 0 ? (
-        <p>Aun no has realizado ninguna solicitud</p>
+        <Box className="card-container" sx={{textAlign: 'center', display: 'flex', flexDirection:'column', alignItems: 'center'}}>
+
+          <Typography variant="h5" mb={5}>Aun no has realizado ninguna solicitud</Typography>
+          <Avatar sx={{ width: 182, height: 182, boxShadow:' rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px' }}>
+            { 
+              <img src='https://images.unsplash.com/photo-1505939675702-ea0ad504df86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' alt="?" width="182px" height="182px" />
+            }
+          </Avatar>
+        </Box>
       ) : (
         filterById.map((e) => {
           return (
-            <Box style={e.state==='rechazado'?styles.rejected:e.sate==='aceptado'?styles.acepted:styles.pending}>
-              <Box sx={{width:'20%', fontSize:'1.2rem'}}>
+            <Box
+              style={
+                e.state === "rechazado"
+                  ? styles.rejected
+                  : e.sate === "aceptado"
+                  ? styles.acepted
+                  : styles.pending
+              }
+            >
+              <Box sx={{ width: "20%", fontSize: "1.2rem" }}>
                 <Typography variant="h7">{e.services?.name}</Typography>
               </Box>
-              <Box sx={{width:'60%', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
-              <Typography variant="h7">
-                El servicio esta solicitado para el dia {e.day} a las {e.hours}
-                hs
-              </Typography>
-              <Typography variant="h7">Estado: {e.state}</Typography>
+              <Box
+                sx={{
+                  width: "60%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="h7">
+                  El servicio esta solicitado para el dia {e.day} a las{" "}
+                  {e.hours}
+                  hs
+                </Typography>
+                <Typography variant="h7">Estado: {e.state}</Typography>
               </Box>
-              
+
               {e.state === "rechazado" ? (
-                <Button sx={{backgroundColor:'#1F2937'}} variant='contained' id={e.id} onClick={handleDele}>
+                <Button
+                  sx={{ backgroundColor: "#1F2937" }}
+                  variant="contained"
+                  id={e.id}
+                  onClick={handleDele}
+                >
                   Eliminar
                 </Button>
               ) : (
                 <div>
                   {e.state === "aceptado" ? (
-                    <Box >
+                    <Box>
                       <Typography>
                         <Link to={`/home/services/payment/${e.services?.id}`}>
-                          <Button variant="contained" sx={{width:'100%', margin:'2%'}}>
+                          <Button
+                            variant="contained"
+                            sx={{ width: "100%", margin: "2%" }}
+                          >
                             Pagar
                           </Button>
                         </Link>
                       </Typography>
-                        <Button 
-                          sx={{width:'100%', margin:'2%'}}
-                          variant="contained"
-                          name={e.services?.user_id}
-                          id={e.id}
-                          onClick={handleClic}
-                        >
-                          Cancelar
-                        </Button>
-                        <div>
-                        <Dialog open={!hide}>
-                        <div
-                          style={hide === true ? styles.hide : styles.nohide}
-                        >
-                          <form onSubmit={(p) => handleClear(p)}>
-                            <label>
-                              Deja un mensaje explicando el motivo de
-                              cancelacion
-                            </label>
-                            <br />
-                            <input
-                              type="text"
-                              name="message"
-                              value={noti.message}
-                              onChange={handleNotification}
-                            />
-                            <br />
-                            <button type="submit" id={e.id}>
-                              Enviar
-                            </button>
-                          </form>
-                          <button onClick={handleClic}>Cerrar</button>
-                        </div>
-                      </Dialog>
-                      </div>
-                    </Box>
-                  ) : (
-                    <div>
-                      {
-                        e.state === 'Pagado' ? 
-                        <Link to={`/services/review/${e.service_id}`}><button>Dejar review</button></Link>
-                        
-                        : <div>
-                        <Button
-                          variant="contained"
-                          name={e.services?.user_id}
-                          id={e.id}
-                          onClick={handleClic}
-                        >
-                          Cancelar
-                        </Button>
+                      <Button
+                        sx={{ width: "100%", margin: "2%" }}
+                        variant="contained"
+                        name={e.services?.user_id}
+                        id={e.id}
+                        onClick={handleClic}
+                      >
+                        Cancelar
+                      </Button>
+                      <div>
                         <Dialog open={!hide}>
                           <div
                             style={hide === true ? styles.hide : styles.nohide}
@@ -220,7 +209,51 @@ export default function StateRequester() {
                           </div>
                         </Dialog>
                       </div>
-                      }
+                    </Box>
+                  ) : (
+                    <div>
+                      {e.state === "Pagado" ? (
+                        <Link to={`/services/review/${e.service_id}`}>
+                          <button>Dejar review</button>
+                        </Link>
+                      ) : (
+                        <div>
+                          <Button
+                            variant="contained"
+                            name={e.services?.user_id}
+                            id={e.id}
+                            onClick={handleClic}
+                          >
+                            Cancelar
+                          </Button>
+                          <Dialog open={!hide}>
+                            <div
+                              style={
+                                hide === true ? styles.hide : styles.nohide
+                              }
+                            >
+                              <form onSubmit={(p) => handleClear(p)}>
+                                <label>
+                                  Deja un mensaje explicando el motivo de
+                                  cancelacion
+                                </label>
+                                <br />
+                                <input
+                                  type="text"
+                                  name="message"
+                                  value={noti.message}
+                                  onChange={handleNotification}
+                                />
+                                <br />
+                                <button type="submit" id={e.id}>
+                                  Enviar
+                                </button>
+                              </form>
+                              <button onClick={handleClic}>Cerrar</button>
+                            </div>
+                          </Dialog>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

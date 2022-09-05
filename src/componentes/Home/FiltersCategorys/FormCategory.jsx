@@ -6,10 +6,9 @@ import { getAllCategories, getAllServices, sortServices } from "../../../redux/a
 
 export default function FormCategory(){
     const categoryState = useSelector(state => state.categories)
-    const services = useSelector(state => state.services)
     const dispatch = useDispatch()
     const [cat, setCat] = useState('')
-    const [select, setSelect] = useState('')    
+    const [ setSelect] = useState('')    
     const navigate = useNavigate()
     useEffect(() => {
         dispatch(getAllCategories())

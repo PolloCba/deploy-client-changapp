@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { DataGrid, GridAddIcon } from "@mui/x-data-grid";
+import { DataGrid} from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategories } from "../../redux/actions";
-import { Fab } from "@mui/material";
+import categories from "./Estilos/categories";
 
 export default function Categories() {
   const dispatch = useDispatch();
@@ -18,18 +18,21 @@ export default function Categories() {
   ];
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div>
+      <div style={categories.titulo}>
+        <h2>Categorias</h2>
+      </div>
+      <div style={categories.grid}>
       <DataGrid
         columns={columns}
         rows={categoriesDb}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+        sx={{backgroundColor: '#1F2937', color: '#fff'}}
       />
-      {/*       
-    <Fab sx={{position:'absolute', border: 'solid black 6px'}}
-    color="secondary" aria-label="add">
-    <GridAddIcon />
-</Fab> */}
+      
+    </div>
+
     </div>
   );
 }

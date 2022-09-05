@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserEmail } from "../../redux/actions";
@@ -6,29 +6,20 @@ import { useDispatch } from "react-redux";
 import "../css/profile.css";
 import userImg from '../../user.png'
 //IMPORT DE MATERIAL UI
-import Card from "@mui/material/Card";
-
-
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-
 import Typography from "@mui/material/Typography";
-
 import { useAuth } from "../../context/authContext";
-import { Avatar, Box } from "@mui/material";
-
+import { Box } from "@mui/material";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 export default function Profile() {
   const { user } = useAuth();
   const estado = useSelector((state) => state.filter);
   const navigate = useNavigate();
-
+  
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserEmail(user?.email));
-
   }, [dispatch, user?.email]);
 
 
@@ -42,7 +33,7 @@ export default function Profile() {
             servicios.
             <Link to="/register">Registrarse</Link>
           </Box>
-        ) : estado?.length === 1 ? (
+        ) : estado.length === 0 ? navigate("/settings/edit") : (
          
           <Box
             variant="section"
@@ -52,7 +43,7 @@ export default function Profile() {
                 <img
                   style={{ width: '150px'}}
                   src={estado[0].img ? estado[0].img : userImg}
-                  alt="Profile photo"
+                  alt="Profile"
                 />
                 <Box sx={{display:'flex', justifyContent:'center', padding:'4%'}}>
                   <LocationOnIcon sx={{fontSize:'1.8rem'}}/>
@@ -82,9 +73,7 @@ export default function Profile() {
               </Box>
              
             </Box>
-        ) : (
-          navigate("/settings/edit")
-        )}
+        ) }
       </Box>
     );
   

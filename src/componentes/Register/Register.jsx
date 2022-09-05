@@ -9,7 +9,6 @@ import { Box } from "@mui/system";
 import { Button, Typography, TextField } from "@mui/material";
 import camera from "../../pngwing.com.png";
 import Nav from "../landing/LandingNav";
-import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import toast, { Toaster } from "react-hot-toast";
 
 function validate(user) {
@@ -303,6 +302,7 @@ export default function Register() {
               onChange={handleOnChange}
             />
             {error.password && <p>{error.password}</p>}
+            <p>Al hacer clic en Registrarte, aceptas las Condiciones, la Política de privacidad y la Política de cookies.</p>
             <Box
               sx={{
                 width: "100%",

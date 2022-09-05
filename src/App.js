@@ -46,7 +46,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/password" element={<Password />} />
-
         <Route path="/home" element={<PrivateRoute><Guardar /></PrivateRoute>} />
         <Route path="/home/:name" element={<PrivateRoute><FilterCategory /></PrivateRoute>} />
         <Route path='/home/user/:id' element={<PrivateRoute><PreService/></PrivateRoute>}/>
