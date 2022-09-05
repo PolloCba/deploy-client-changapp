@@ -6,24 +6,26 @@ import { getUserEmail } from "../../redux/actions";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 
+export default function AdminPrivate({ children }) {
+  const { user } = useAuth();
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.filter);
+  console.log(userState);
+  useEffect(() => {
+    dispatch(getUserEmail(user?.email));
+  }, [dispatch, user?.email]);
 
-export default function AdminPrivate({children}) {
-    const {user} = useAuth()
-    const dispatch = useDispatch()
-    const userState = useSelector(state => state.filter)
-    console.log(userState)
-    useEffect(() => {
-    dispatch(getUserEmail(user?.email))
-  }, [dispatch, user?.email])
-  
-
-  if(userState[0]?.admin === true) {
-    return <>{children}</>
-  }else{
-    return <div style={{textAlign: 'center'}}>
-      <Navbar/>
-        <h1>No tienes acceso a estos datos, redirigete a la <Link to='/home'>home</Link></h1>
-    </div>
+  if (userState[0]?.admin === false) {
+    return <>{children}</>;
+  } else {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <Navbar />
+        <h1>
+          No tienes acceso a estos datos, redirigete a la{" "}
+          <Link to="/home">home</Link>
+        </h1>
+      </div>
+    );
   }
-
 }
