@@ -37,7 +37,7 @@ const CheckoutForm = () => {
   request = request.filter((p) => p.service_id === id);
   service = service.filter((p) => p.id === id);
 
-  const baseUrl = "https://deploy-changapp.herokuapp.com";
+  const baseUrl = "https://deploy-changapp.herokuapp.com/payment";
 
   const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ const CheckoutForm = () => {
     if (!error) {
       const email = service[0].user.email;
       const { id } = paymentMethod;
-      await axios.post(baseUrl, {
+      await axios.post(`${baseUrl}`, {
         id,
         amount: request[0]?.services.price,
         email: email,
