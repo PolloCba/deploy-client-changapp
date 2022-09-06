@@ -10,22 +10,19 @@ import {
   postNotification,
   postReview,
 } from "../redux/actions";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import Navbar from "./PrivateRoute/Navbar";
-import Footer from "./Footer";
-
 import { useAuth } from "../context/authContext";
 
-export default function Review({ user_id }) {
+export default function Review({id}) {
   const [rating, setRating] = useState(null);
   const [hover, setHover] = useState(null);
   const [rev, setRev] = useState("");
+  const [btn, setBtn] = useState(true)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useAuth();
   const userData = useSelector((state) => state.filter);
-  const { id } = useParams();
   let service = useSelector((state) => state.services);
   service = service.filter((p) => p.id === id);
   let request = useSelector((state) => state.allRequest);
@@ -39,13 +36,16 @@ export default function Review({ user_id }) {
     userNotificated_id: "",
   });
 
-  console.log(service[0]?.user.email, "EMAIL");
-
   useEffect(() => {
     dispatch(getUserEmail(user?.email));
     dispatch(getAllServices());
     dispatch(allRequest());
-  }, [dispatch, user?.email]);
+    if(rev && rating ){
+      setBtn(false)
+    }else{
+      setBtn(true)
+    }
+  }, [dispatch, user?.email, rev,rating]);
 
   const postRevieew = async (e) => {
     e.preventDefault();
@@ -56,7 +56,6 @@ export default function Review({ user_id }) {
         author_id: userData[0]?.id,
         user_id: service[0]?.user_id,
         email: service[0]?.user.email,
-
       })
     );
     dispatch(
@@ -85,19 +84,21 @@ export default function Review({ user_id }) {
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
-      <Navbar />
+      {/* <Navbar /> */}
       {request.length === 0 ? (
         <p>Ya realizaste una review del servicio, no puedes realizar mas</p>
       ) : (
-        <div>
+        <div className="reviews">
           <h3>
-            Reseña: <textarea value={rev} onChange={(e) => handleInput(e)} />
+            Reseña: 
           </h3>
+            <textarea value={rev} onChange={(e) => handleInput(e)}  className='textareaReview' cols='30' rows='4'/>
+          <div className="solo">
           {[...Array(5)].map((star, i) => {
             const ratingValue = i + 1;
 
             return (
-              <div className="reviews">
+              <div className="stars">
                 <label>
                   <input
                     className="input-review"
@@ -115,16 +116,16 @@ export default function Review({ user_id }) {
                     onMouseEnter={() => setHover(ratingValue)}
                     onMouseLeave={() => setHover(null)}
                   />
-                  ;
-                </label>
+                  </label>
               </div>
             );
           })}
-          <button onClick={postRevieew}>Enviar</button>
+          </div>
+          <button onClick={postRevieew} className='btnReview' disabled={btn}>Publicar</button>
         </div>
       )}
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -43,14 +43,17 @@ export default function UserDetail() {
     dispatch(
       bannedState(id, { banned: !user[0]?.banned, email: user[0]?.email })
     );
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const handleAdmin = (id) => {
     dispatch(adminState(id, { admin: !user[0]?.admin }));
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
-  console.log(user);
   return (
     <Box component="section" className="profile-section">
       <Box component="div" className="prof-detail">

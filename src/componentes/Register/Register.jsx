@@ -214,7 +214,7 @@ export default function Register() {
                   id="inputTag"
                   style={styles.imgInput}
                   type="file"
-                  accept="image/jpeg"
+                  accept="image/jpeg, image/png" 
                   name="img"
                   onChange={handleImage}
                 />

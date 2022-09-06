@@ -126,7 +126,9 @@ export default function FormService() {
       service.name &&
       service.description &&
       service.price &&
-      service.category
+      service.category &&
+      service.day.length &&
+      service.hours.length
     ) {
       setBtn(true);
     } else {

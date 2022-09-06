@@ -1,7 +1,7 @@
 import React from "react";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import '../css/navBar.css'
 import { Button } from "@mui/material";
 import { useAuth } from "../../context/authContext.js";

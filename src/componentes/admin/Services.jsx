@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllServices, deleteService } from "../../redux/actions";
@@ -19,6 +19,32 @@ export default function Services() {
         window.location.reload() 
     }
 
+  //Paginado para los servicios
+  const paginas = Math.ceil(services.length / 4)
+  const [pages, setPages] = useState(1)
+  const [requestPerPage] = useState(4)
+  const ultima = pages * requestPerPage
+  const primera = ultima - requestPerPage
+  const serviceSlice = services.slice(primera, ultima)
+
+  const handleAnterior = (e) => {
+    e.preventDefault()
+    setPages(pages - 1)
+      if(pages < 2){
+        setPages(1)
+      }
+      window.scrollTo(0,0)
+  }
+
+  const handleSiguiente = () => {
+    setPages(pages + 1)
+    if(pages >= paginas){
+      setPages(paginas)
+    }
+    window.scrollTo(0,0)
+}
+
+
   return( 
     <div>
         <div style={service.titulo}>
@@ -27,7 +53,7 @@ export default function Services() {
         <div style={service.contenedorCard}>
         {
             services?.length === 0 ? <div style={service.sinSolicitudes}><p>Por el momento no se encuntran servicios creados</p></div>
-            : services?.map(s => {
+            : serviceSlice?.map(s => {
                 return(
                     <div key={s.id} style={service.card}>
                         <p>ID: {s.id}</p>
@@ -41,6 +67,11 @@ export default function Services() {
                     </div>)
             })
         }
+        </div>
+        <div style={service.paginadoDiv}>
+          <button style={service.btnPaginado} onClick={handleAnterior}>{'<'}</button>
+          {''} {pages} de {paginas} {''}
+          <button style={service.btnPaginado} onClick={handleSiguiente}>{'>'}</button>
         </div>
     </div>)
 }

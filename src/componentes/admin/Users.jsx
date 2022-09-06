@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import user from "./Estilos/users";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,31 @@ export default function Users() {
   useEffect(() => {
     dispatch(allUsers());
   }, [dispatch]);
+
+  //Paginado para los servicios
+  const paginas = Math.ceil(usersDb.length / 10)
+  const [pages, setPages] = useState(1)
+  const [requestPerPage] = useState(10)
+  const ultima = pages * requestPerPage
+  const primera = ultima - requestPerPage
+  const userSlice = usersDb.slice(primera, ultima)
+
+  const handleAnterior = (e) => {
+    e.preventDefault()
+    setPages(pages - 1)
+      if(pages < 2){
+        setPages(1)
+      }
+      window.scrollTo(0,0)
+  }
+
+  const handleSiguiente = () => {
+    setPages(pages + 1)
+    if(pages >= paginas){
+      setPages(paginas)
+    }
+    window.scrollTo(0,0)
+}
 
 
   return (
@@ -28,8 +53,8 @@ export default function Users() {
         <p>Banneado</p>
         <p>Detalles</p>
       </div>
-      {usersDb &&
-        usersDb.map((e) => {
+      {userSlice &&
+        userSlice.map((e) => {
           return (
             <div style={user.gridUno}>
               <p>{e.id}</p>
@@ -47,6 +72,11 @@ export default function Users() {
             </div>
           );
         })}
+        <div style={user.paginadoDiv}>
+          <button style={user.btnPaginado} onClick={handleAnterior}>{'<'}</button>
+          {''} {pages} de {paginas} {''}
+          <button style={user.btnPaginado} onClick={handleSiguiente}>{'>'}</button>
+        </div>
     </div>
   );
 }

@@ -1,25 +1,12 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "../css/landing.css";
 import CardLanding from "./CardLanding";
-import { useAuth } from "../../context/authContext";
+
 import Nav from "./LandingNav";
 import Footer from "../Footer";
 
 export default function Landing() {
-  const { logAnonymous } = useAuth();
-  const navigate = useNavigate();
-
-  const handleAnonymous = async (e) => {
-    e.preventDefault();
-    try {
-      await logAnonymous();
-      navigate("/home");
-    } catch (error) {
-      console.log("Error anonimo");
-    }
-  };
 
   return (
     <div>

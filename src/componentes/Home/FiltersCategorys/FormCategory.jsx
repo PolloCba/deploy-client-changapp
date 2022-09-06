@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate} from "react-router-dom";
 import { getAllCategories, getAllServices, sortServices } from "../../../redux/actions";
-
+import "../../css/card-services.css"
 export default function FormCategory(){
     const categoryState = useSelector(state => state.categories)
     const dispatch = useDispatch()
@@ -40,28 +40,31 @@ export default function FormCategory(){
       };
     
     return(
-        <div style={{ textAlign: 'center'}}>
+        <div className="form-filter-services">
             <select name="precios" onChange={handleSort}>
                 <option value="neutro">Precios</option>
                 <option value="mayor">Mayor precio</option>
                 <option value="menor">Menor precio</option>
             </select>
-            <form onSubmit={e => handleOnSubmit(e)} style={{ textAlign: 'center', display: 'flex', justifyContent:'center', gap: '10px', alignItems:'baseline'}}>
-                <div>
+            <form onSubmit={e => handleOnSubmit(e)} className="filter-category" >
+                <div 
+                className="category_filter-select"
+               
+                >
                     <label>Todos</label>
                     <input id="todos" type="radio" value='todos' onChange={(e)=>handleOnClick(e)}/>
                 </div>
                 {
                     categoryState.map(el => {
                         return(
-                            <div key={el.id}>
+                            <div key={el.id} className="category_filter-select">
                                 <label>{el.name}</label>
                                 <input id={el.name} type="radio" value={el.name} name={el.name} onChange={(e)=>handleOnClick(e)}/>
                             </div>
                         )
                     })
                 }
-                <Button type="submit">Filtrar</Button>
+                <Button variant="contained" sx={{backgroundColor: "aliceblue", color: 'black', marginTop: '5%'}} type="submit">Filtrar</Button>
             </form>
         </div>)
 }

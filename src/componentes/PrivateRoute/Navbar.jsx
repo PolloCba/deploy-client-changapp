@@ -73,7 +73,9 @@ const styles = {
     display: 'none'
   },
   admin: {
-    display: 'block'
+    display: 'block',
+    textDecoration: 'none',
+    color: '#000'
   }
 
 };
@@ -206,7 +208,7 @@ export default function Navbar() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <Link to="/settings/profile">
+        <Link to="/settings/profile" style={styles.admin}>
           <MenuItem>
             <Avatar /> Perfil
           </MenuItem>

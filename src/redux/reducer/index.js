@@ -29,8 +29,6 @@ import {
   ADMIN_UPDATE,
   ALL_REVIEWS
 
-
-
 } from "../actions/index.js";
 
 const initialStates = {
@@ -56,7 +54,6 @@ const initialStates = {
   postReview: [],
   user: [],
   reviews:[]
-
 
 
 };
@@ -227,11 +224,11 @@ const reducer = (state = initialStates, action) => {
         ...state,
         user: [...state.user, {...action.payload}]
       }  
-      case ALL_REVIEWS:
-        return {
-          ...state,
-          reviews: action.payload
-        }
+    case ALL_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload
+      }      
     default:
       return state;
   }

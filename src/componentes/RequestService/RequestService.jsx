@@ -33,11 +33,18 @@ export default function RequestService(props) {
 
   const [btn, setBtn] = useState(true)
 
+  useEffect(() => {
+    if(request.day && request.hours){
+      setBtn(false)
+    }else{
+      setBtn(true)
+    }
+  })
+
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log(id)
 
   const service = useSelector((state) => state.serviceDetail);
   let requests = useSelector((state) => state.allRequest);
@@ -63,7 +70,7 @@ export default function RequestService(props) {
     dispatch(allRequest());
     setLoading(false);
   }, [dispatch, user?.email]);
-
+  console.log(request)
   const weekDays = [
     "Lunes",
     "Martes",
@@ -104,9 +111,7 @@ export default function RequestService(props) {
       });
     }
   };
-  console.log(userDb[0]?.id)
-  // console.log(service.user?.id)
-
+  console.log(requests)
   const handleSubmit = (e) => {
     e.preventDefault();
     if (userDb.length === 0) {
@@ -114,13 +119,13 @@ export default function RequestService(props) {
         "Para solicitar un servicio, primero debes completar los datos de tu perfil. Dirigete hacia tu perfil."
       );
     }
-    if (userDb[0]?.id === service.user?.id) {
+    else if (userDb[0]?.id === service.user?.id) {
       toast.error("No puedes hacer un pedido a un servicio que publicaste.");
     }
-    if(requests.length >= 1){
+    else if(requests.length !== 0){
       toast.error('Ya tienes una solicitud para este pedido, dirigete a tu perfil para modificarla.')
     }
-    if(userDb[0]?.id !== service.user?.id) {
+    else if(userDb[0]?.id !== service.user?.id) {
 
       let requestService = {
         ...request,
@@ -262,6 +267,7 @@ export default function RequestService(props) {
                         variant="outlined"
                         sx={{ color: "#1F2937" }}
                         type="submit"
+                        disabled={btn}
                       >
                         Solicitar
                       </Button>

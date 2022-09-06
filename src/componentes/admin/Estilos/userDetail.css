@@ -18,16 +18,16 @@
 
 .personal-data-profile {
     display: flex;
-    /* border: white solid 2px; */
+    border: salmon solid 2px;
     max-width: 600px;
     margin: 1%;
     background-color: rgba(144, 137, 137, 0.303);
     padding: 1%;
-    border-radius: 10px;
+    border-radius: 60px;
 }
 
 .personal-data-profile img {
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 .pd-list ul,

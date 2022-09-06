@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "../context/authContext";
 import { getAllCategories } from "../redux/actions";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./css/footer.css";
 
 export default function Footer() {
@@ -36,7 +36,7 @@ export default function Footer() {
           {category &&
             category.map((c) => {
               return (
-                <Link key={c.id} to="/home/todos">
+                <Link key={c.id} to="/home/todos" className="footerLink">
                   <div>
                     <li className="footer__lista--item">
                       <p>{c.name}</p>
@@ -63,9 +63,9 @@ export default function Footer() {
             <p>Programa de Fidelidad</p>
           </li>
           <li className="footer__lista--item">
-            <Link to="/home/createService">
+            <NavLink style={{color: 'white'}} to="/home/createService">
               <p>Anuncie Aqui</p>
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </div>

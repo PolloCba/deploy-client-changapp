@@ -151,9 +151,7 @@ export default function UpdateProfile() {
       width: "100%",
       display: "none",
     },
-    bottomSection: {
-      padding: "30px",
-    },
+
     formLabel: {
       fontSize: "1.3rem",
     },
@@ -171,6 +169,7 @@ export default function UpdateProfile() {
       backgroundColor: "white",
       padding: "4%",
       cursor: "pointer",
+      fontSize: '16px'
     },
   };
 
@@ -230,13 +229,14 @@ export default function UpdateProfile() {
             </Box>
           </Box>
           <Box style={styles.imgSection}>
-            <label style={styles.editImg} for="inputTag">
+            <label style={styles.editImg} htmlFor="inputTag">
               <img
                 style={{
                   width: "150px",
                   height: "150px",
                   cursor: "pointer",
                   zIndex: "-1",
+                  borderRadius: '50%'
                 }}
                 src={
                   input.img

@@ -9,6 +9,9 @@ import {
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import toast, {Toaster} from 'react-hot-toast'
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import styles from "../../Servicios/AuxService/style";
 
 function validate(service) {
   let error = {};
@@ -31,6 +34,7 @@ export default function UpdateService() {
   const [service, setService] = useState({
     name: "",
     day: [],
+    hours: [],
     price: "",
     description: "",
     email: "",
@@ -48,7 +52,7 @@ export default function UpdateService() {
     dispatch(getServiceById(param.id));
   }, [dispatch, param.id]);
 
-  console.log(idService[0].user.email, "SERVICE");
+
 
   //PARA LEER LOS CAMBIOS
   const handleOnChange = (e) => {
@@ -77,16 +81,80 @@ export default function UpdateService() {
     }
   };
 
+//manejo de horarios de disponibilidad
+const handleTime = (e) => {
+  let inputValue = document.getElementById("time");
+  if (inputValue.value !== "" && !service.hours.includes(inputValue.value)) {
+    setService({
+      ...service,
+      hours: [...service.hours, inputValue.value],
+    });
+  }
+};
+
+const handlePlusTime = (e) => {
+  let element = document.getElementById("time");
+  if (!element.value) element.value = "00:00";
+  let input = document.getElementById("time").value;
+  input = input.split(":");
+
+  if (element.value === "23:30") {
+    element.value = "00:00";
+  } else {
+    if (Number(input[1]) === 30) {
+      input[1] = "00";
+      input[0] = (Number(input[0]) + 1).toString();
+      input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0];
+    } else if (Number(input[1]) !== 30) {
+      input[1] = "30";
+    } else if (element.value === "23:30") {
+      element.value = "00:00";
+    }
+
+    element.value = input.join(":");
+  }
+};
+
+const handleLessTime = (e) => {
+  let element = document.getElementById("time");
+  if (!element.value) element.value = "00:00";
+  let input = document.getElementById("time").value;
+  input = input.split(":");
+
+  if (element.value === "00:00") {
+    element.value = "23:30";
+  } else {
+    if (input[1] === "00") {
+      input[1] = "30";
+      input[0] = (Number(input[0]) - 1).toString();
+      input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0];
+    } else if (input[1] !== "00") {
+      input[1] = "00";
+    }
+    element.value = input.join(":");
+  }
+};
+
+const handleDeleteTime = (e) => {
+  setService({
+    ...service,
+    hours: service.hours.filter((el) => el !== e.target.value),
+  });
+};
+
+
   //ENVIAR DATA DEL FORMULARIO
   const handleSubmit = (e) => {
     e.preventDefault();
     service.day = service.day.join(",");
+    service.hours = service.hours.join(",");
     if (service.name === "") service.name = idService[0]?.name;
     if (service.price === "") service.price = idService[0]?.price;
     if (service.description === "")
       service.description = idService[0]?.description;
     service.email = idService[0].user.email;
     if (service.day === "") service.day = idService[0]?.day;
+    if (service.hours === '') service.hours = idService[0]?.hours
     if (
       noti.message === "" &&
       noti.userNotification_id === "" &&
@@ -147,12 +215,93 @@ export default function UpdateService() {
             );
           })}
         </Box>
+        <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  variant="h7"
+                  sx={{ textAlign: "center", padding: "30px" }}
+                >
+                  Agregá horarios de disponibilidad
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "30%",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Box sx={{ display: "flex" }}>
+                    <input
+                      style={styles.time}
+                      id="time"
+                      type="time"
+                      step={1800}
+                    />
+
+                    <Box sx={{ display: "flex" }}>
+                      <Button
+                        variant="outlined"
+                        onClick={(e) => handlePlusTime(e)}
+                        sx={{ minWidth: "30px" }}
+                      >
+                        <ExpandLessIcon />
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        onClick={(e) => handleLessTime(e)}
+                        sx={{ minWidth: "30px" }}
+                      >
+                        <ExpandMoreIcon />
+                      </Button>
+                    </Box>
+                  </Box>
+                  <Button
+                    onClick={handleTime}
+                    sx={{ width: "40px", height: "45px", outline: "none" }}
+                    variant="outlined"
+                  >
+                    ➕
+                  </Button>
+                </Box>
+                <Box sx={{ display: "flex", width: "100%" }}>
+                  <Box style={styles.hourAdded}>
+                    {service?.hours?.map((el) => {
+                      return (
+                        <Box
+                          key={el.id}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            padding: "5px",
+                          }}
+                        >
+                          <Typography>{el}</Typography>
+                          <Button
+                            value={el}
+                            onClick={(e) => handleDeleteTime(e)}
+                            sx={{ minWidth: "20px", padding: "0" }}
+                          >
+                            ✖
+                          </Button>
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                </Box>
+              </Box>
+            {/* </Box> */}
         <Box sx={{ display: "flex", gap: "120px" }}>
           <label>Precio</label>
           <TextField
             type="number"
             name="price"
-            placeholder={idService[0]?.price}
+            placeholder={idService[0]?.price.toString()}
             value={service.price}
             onChange={handleOnChange}
           />

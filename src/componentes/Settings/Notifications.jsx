@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   allNotifications,
@@ -8,6 +8,9 @@ import {
 import { useAuth } from "../../context/authContext";
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import "../css/empty.css";
+
+import styles from "./Request/style";
+import error from "../../404.png";
 
 export default function Notifications() {
   const { user } = useAuth();
@@ -19,6 +22,31 @@ export default function Notifications() {
   );
   notifications = notifications.reverse();
 
+  //Paginado para los servicios
+  const paginas = Math.ceil(notifications.length / 3);
+  const [pages, setPages] = useState(1);
+  const [notisPerPage] = useState(3);
+  const ultima = pages * notisPerPage;
+  const primera = ultima - notisPerPage;
+  const notisSlice = notifications.slice(primera, ultima);
+
+  const handleAnterior = (e) => {
+    e.preventDefault();
+    setPages(pages - 1);
+    if (pages < 2) {
+      setPages(1);
+    }
+    window.scrollTo(0, 0);
+  };
+
+  const handleSiguiente = () => {
+    setPages(pages + 1);
+    if (pages >= paginas) {
+      setPages(paginas);
+    }
+    window.scrollTo(0, 0);
+  };
+
   useEffect(() => {
     dispatch(allNotifications());
     dispatch(getUserEmail(user?.email));
@@ -27,7 +55,9 @@ export default function Notifications() {
   const handleOnClick = (e) => {
     e.preventDefault();
     dispatch(deleteNotification(e.target.id));
-    window.location.reload(true);
+    setTimeout(() => {
+      window.location.reload(true);
+    }, 500);
   };
 
   return (
@@ -51,7 +81,7 @@ export default function Notifications() {
       >
         {notifications.length === 0 ? (
           <Box
-            className="card-container"
+            className="empty-container"
             sx={{
               textAlign: "center",
               display: "flex",
@@ -63,26 +93,11 @@ export default function Notifications() {
               Sin noticias actualmente
             </Typography>
 
-            <Avatar
-              sx={{
-                width: 182,
-                height: 182,
-                boxShadow:
-                  " rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
-              }}
-            >
-              {
-                <img
-                  src="https://images.unsplash.com/photo-1505939675702-ea0ad504df86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                  alt="?"
-                  width="182px"
-                  height="182px"
-                />
-              }
-            </Avatar>
+            {<img src={error} alt="?" width="182px" height="182px" />}
+            {/* </Avatar> */}
           </Box>
         ) : (
-          notifications.map((e) => {
+          notisSlice.map((e) => {
             return (
               <Box
                 sx={{
@@ -118,6 +133,15 @@ export default function Notifications() {
             );
           })
         )}
+        <div style={styles.paginadoDiv}>
+          <button style={styles.btnPaginado} onClick={handleAnterior}>
+            {"<"}
+          </button>
+          {pages} of {paginas}
+          <button style={styles.btnPaginado} onClick={handleSiguiente}>
+            {">"}
+          </button>
+        </div>
       </Box>
     </Box>
   );

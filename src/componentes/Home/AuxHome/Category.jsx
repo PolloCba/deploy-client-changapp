@@ -17,7 +17,8 @@ export default function Category() {
   }, [dispatch]);
 
   return (
-    <><div className="typography">
+    <div className="allCategories-container">
+    <div className="typography">
       <Typography
         variant="h4"
         sx={{
@@ -38,17 +39,17 @@ export default function Category() {
             console.log(category);
             return (
               <Link key={e.id} to={`/home/${e.name}`}>
-                <div >
-                  <div className="card-category">
-                    <h3 className="title-category">{e.name}</h3>
-                    <img src={e.img} alt={e.name} height="200px" width="300px" />
+                
+                  <div className="card-category" style={{backgroundImage:`url(${e.img})`}}>
+                    {/* <img  alt={e.name} height="200px" width="300px" /> */}
                     {/* <Button value={e.name} onClick={handleOnClick}>Ir</Button> */}
                   </div>
-                </div>
+                    <h3 className="title-category">{e.name}</h3>
+                
               </Link>
             );
           })}
       </div>
-    </>
+    </div>
   );
 }
