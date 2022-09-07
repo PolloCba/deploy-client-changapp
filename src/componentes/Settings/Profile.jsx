@@ -17,10 +17,10 @@ export default function Profile() {
   const navigate = useNavigate();
   
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUserEmail(user?.email));
-  }, [dispatch, user?.email]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getUserEmail(user?.email));
+  // }, [dispatch, user?.email]);
 
 
 

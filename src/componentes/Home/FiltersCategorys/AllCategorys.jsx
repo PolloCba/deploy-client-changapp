@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllServices } from "../../../redux/actions";
 import Navbar from "../../PrivateRoute/Navbar";
@@ -14,6 +14,34 @@ import error from '../../../404.png'
 export default function AllCategorys() {
   const services = useSelector((state) => state.services);
   const dispath = useDispatch();
+
+  //PAGINADO 
+  const paginas = Math.ceil(services?.length / 4)
+  const [pages, setPages] = useState(1)
+  const [servicePerPage] = useState(4)
+  const ultimo = pages * servicePerPage
+  const primero = ultimo - servicePerPage
+  const userSlice = services.slice(primero, ultimo)
+
+  const handleAnterior = (e) => {
+    e.preventDefault()
+    setPages(pages - 1)
+      if(pages < 2){
+        setPages(1)
+      }
+      window.scrollTo(0,0)
+  }
+
+  const handleSiguiente = () => {
+    setPages(pages + 1)
+    if(pages >= paginas){
+      setPages(paginas)
+    }
+    window.scrollTo(0,0)
+}
+
+
+
   useEffect(() => {
     dispath(getAllServices());
   }, [dispath]);
@@ -24,6 +52,9 @@ export default function AllCategorys() {
       <FormCategory />
 
       <div className="container-services">
+        <div style={{ margin:"15px", color: '#fff'}}>
+          <Typography variant='h5'>Todos los servicios</Typography>
+        </div>
         {
         services.length === 0 ? (
           <Box>
@@ -45,10 +76,10 @@ export default function AllCategorys() {
         ) : 
 
        ( services &&
-          services?.map((e) => {
+        userSlice?.map((e) => {
             return (
               <div className="cards-services"
-               
+
                 key={e.id}
                 >
                 <img src={e.user?.img} alt="No tiene imagen de perfil" width='64px' height="64px"/>
@@ -67,6 +98,11 @@ export default function AllCategorys() {
             );
           }))}
       </div>
+      <div style={{textAlign: 'center'}}>
+      <Button sx={{ backgroundColor: "#354152", margin: '5px', color: '#fff' }} onClick={handleAnterior}>{'<'}</Button>
+      <span style={{color: '#fff'}}>{pages} de {paginas}</span>
+      <Button sx={{ backgroundColor: "#354152", margin: '5px', color: '#fff' }} onClick={handleSiguiente}>{'>'}</Button>
+    </div>
     </div>
   );
 }

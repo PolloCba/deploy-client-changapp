@@ -26,10 +26,10 @@ export default function StateRequester() {
     (e) => e.requester_id === userState[0]?.id
   );
  
-  useEffect(() => {
-    dispatch(getUserEmail(user?.email));
-    dispatch(allRequest());
-  }, [dispatch, user?.email]);
+  // useEffect(() => {
+  //   dispatch(getUserEmail(user?.email));
+  //   dispatch(allRequest());
+  // }, [dispatch, user?.email]);
 
   //Paginado para los servicios
   const paginas = Math.ceil(filterById.length / 3)
@@ -37,7 +37,7 @@ export default function StateRequester() {
   const [requestPerPage] = useState(3)
   const ultima = pages * requestPerPage
   const primera = ultima - requestPerPage
-  const requestSlice = filterById.slice(primera, ultima)
+  const requestSlice = filterById.slice(primera, ultima).reverse()
 
   const handleAnterior = (e) => {
     e.preventDefault()
@@ -180,10 +180,17 @@ export default function StateRequester() {
 
   return (
 
-    <Box className="section" sx={{ width: "70%" }} style={hide === false ? styles.con : styles.no}>
+    <Box sx={{
+      width: "70%",
+      height:'88vh',
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      flexDirection:'column'
+    }} 
+    style={hide === false ? styles.con : styles.no}
+    >
       
-      <Typography variant="h4">Estado de los servicios solicitados</Typography>
-
       {filterById.length === 0 ? (
         <Box className="empty-container" sx={{textAlign: 'center', display: 'flex', flexDirection:'column', alignItems: 'center'}}>
           <Typography variant="h5" mb={5}>Aun no has realizado ninguna solicitud</Typography>
@@ -192,9 +199,12 @@ export default function StateRequester() {
           {/* </Avatar> */}
         </Box>
       ) : (
+        <Box sx={{display:'flex', flexDirection:'column', width:'80%', alignItems:'center',justifyContent: "center", height:'100%'}}>
+          {
         requestSlice.map((e) => {
           return (
             <Box
+            sx={{width:'100%'}}
               style={
                 e.state === "rechazado"
                   ? styles.rejected
@@ -245,7 +255,7 @@ export default function StateRequester() {
                             Pagar
                           </Button>
                       {/* </Typography> */}
-                      <Dialog open={!pagar} fullScreen='true'>
+                      <Dialog open={!pagar} fullScreen={true}>
                       <span onClick={handlePagar}>
                         <CloseIcon />
                         </span>
@@ -313,30 +323,35 @@ export default function StateRequester() {
                             Cancelar
                           </Button>
                           <Dialog open={!hide}>
-                            <div
+                            <Box
+                              sx={{display:'flex', padding:'30px 0', justifyContent:'center'}}
                               style={
                                 hide === true ? styles.hide : styles.nohide
                               }
                             >
-                              <form onSubmit={(p) => handleClear(p)}>
-                                <label>
+                              <form style={{textAlign:'center', width:'80%'}} onSubmit={(p) => handleClear(p)}>
+                                <label style={{padding:'5px 0'}}>
                                   Deja un mensaje explicando el motivo de
                                   cancelacion
                                 </label>
-                                <br />
-                                <input
-                                  type="text"
+                                <textarea
+                                  rows='5'
+                                  cols='50'
                                   name="message"
                                   value={noti.message}
                                   onChange={handleNotification}
+                                  style={{resize:'none'}}
                                 />
-                                <br />
-                                <button type="submit" id={e.id}>
-                                  Enviar
-                                </button>
+                                <Box sx={{width:'50%', margin:'2% auto',display:'flex', justifyContent:'space-around'}}>
+                                  <Button variant='contained' type="submit" id={e.id}>
+                                    Enviar
+                                  </Button>
+                                  <Button variant='contained' onClick={handleClic}>Cerrar</Button>
+                                </Box>
+
                               </form>
-                              <button onClick={handleClic}>Cerrar</button>
-                            </div>
+                              
+                            </Box>
                           </Dialog>
                         </div>
                       )}
@@ -347,6 +362,8 @@ export default function StateRequester() {
             </Box>
           );
         })
+          }
+        </Box>
       )}
       <div style={styles.paginadoDiv}>
           <button style={styles.btnPaginado} onClick={handleAnterior}>{'<'}</button>

@@ -15,6 +15,9 @@ const styles = {
           outline: '0'
       },
       paginadoDiv: {
+        display:'flex',
+        alignItems:'flex-end',
+        height:'20%',
         // marginTop: '5px',
         textAlign: 'center',
         marginBottom:"5px"

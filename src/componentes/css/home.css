@@ -38,7 +38,7 @@ background: -webkit-linear-gradient(to top, rgba(31,28,44,0.81), rgba(146,141,17
 }
 /* // "../../assets/workers-landing.jpg" */
 .card-category {
-  border: 1px solid rgb(77, 77, 77);
+  /* border: 1px solid rgb(77, 77, 77); */
   padding: 20px;
   border-radius: 10px;
   transition: all 0.3s;

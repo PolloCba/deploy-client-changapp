@@ -97,7 +97,6 @@ export default function Register() {
     }
   };
 
-  // console.log(user.lastName)
   useEffect(() => {
     if (
       !error.firstName &&

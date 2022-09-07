@@ -1,26 +1,29 @@
 .service-container-full{
   background-color: #1f2937af;
-
+ 
+ 
 }
 .container-services {
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat; 
   display: grid;
-  /* grid-template-columns: 1fr 1fr 1fr; */
-  grid-template-rows: 1fr;
-  background-color: rgba(119, 119, 119, 0.2);
+  grid-template-columns: 1fr;
 
-  height: 100%;
 }
+
 .cards-services{
     border: 1px solid rgb(77, 77, 77);
     padding: 20px;
     border-radius: 10px;
+    float: right;
     width: 70%;
     transition: all 0.3s;
     margin: auto;
     margin-left: 50px;
     margin-bottom: 50px;
     background-color: #1F2937;
-    color: white;
+    color: #FFF;
     margin-top: 20px;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   }

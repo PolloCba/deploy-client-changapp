@@ -14,70 +14,67 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import Logout from "@mui/icons-material/Logout";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { allNotifications, getUserEmail } from "../../redux/actions";
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 const styles = {
   container: {
-    padding: "10px 0",
+    padding: "5px 0",
     backgroundColor: "#1F2937",
     color: "#fff",
-    
   },
   button: {
     color: "#fff",
   },
   asd: {
-    textDecoration: 'none',
-    color: '#fff'
+    textDecoration: "none",
+    color: "#fff",
   },
   divPrueba: {
-    position: 'relative'
+    position: "relative",
   },
   prueba: {
-    display: 'none'
+    display: "none",
   },
   prueba2: {
-    display: 'block',
+    display: "block",
     backgroundColor: "#1F2937",
-    textAlign: 'center',
-    position: 'absolute',
-    right: '-60px',
-    borderRadius: '5px',
-    width: '150px',
-    height: '150px',
-    fontSize: '14px',
-    zIndex: '10'
+    textAlign: "center",
+    position: "absolute",
+    right: "-60px",
+    borderRadius: "5px",
+    width: "150px",
+    height: "150px",
+    fontSize: "14px",
+    zIndex: "10",
   },
   asdd: {
-    margin: '15px 5px',
-    backgroundColor: '#fff',
-    
+    margin: "15px 5px",
+    backgroundColor: "#fff",
   },
   link: {
-    textDecoration: 'none',
-    color: '#000',
+    textDecoration: "none",
+    color: "#000",
   },
   cero: {
-    backgroundColor: '#fff',
-    textAlign: 'center',
-    color: '#000',
-    margin: '15px 5px',
+    backgroundColor: "#fff",
+    textAlign: "center",
+    color: "#000",
+    margin: "15px 5px",
   },
   noAdmin: {
-    display: 'none'
+    display: "none",
   },
   admin: {
-    display: 'block',
-    textDecoration: 'none',
-    color: '#000'
-  }
-
+    display: "block",
+    textDecoration: "none",
+    color: "#000",
+  },
 };
 
 export default function Navbar() {
@@ -98,22 +95,23 @@ export default function Navbar() {
 
   //PARA TRAER LA FOTO DEL USUARIO
   const estado = useSelector((state) => state.filter);
-  let notifications = useSelector(state => state.allNotifications)
-  notifications = notifications.filter(e => e.userNotificated_id === estado[0]?.id)
-  notifications = notifications.splice(0,4)
+  let notifications = useSelector((state) => state.allNotifications);
+  notifications = notifications.filter(
+    (e) => e.userNotificated_id === estado[0]?.id
+  );
+  notifications = notifications.splice(0, 4);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserEmail(user?.email));
-    dispatch(allNotifications())
+    dispatch(allNotifications());
   }, [dispatch, user?.email]);
-  
-  //PROBANDO 
-  const [noti, setNoti] = useState(true)
-  const handleNotification = (e) => {
-    e.preventDefault()
-    setNoti(!noti)
-  }
 
+  //PROBANDO
+  const [noti, setNoti] = useState(true);
+  const handleNotification = (e) => {
+    e.preventDefault();
+    setNoti(!noti);
+  };
 
   return (
     <Box style={styles.container} className="navBar">
@@ -130,30 +128,32 @@ export default function Navbar() {
         </Link>
       </div>
 
-      
-        <div style={styles.divPrueba}>
-        {
-          notifications.length === 0 ? <NotificationsIcon value={noti} onClick={handleNotification}/>
-          : <NotificationsActiveIcon value={noti} onClick={handleNotification}/>
-        }  
+      <div style={styles.divPrueba}>
+        {notifications.length === 0 ? (
+          <NotificationsIcon value={noti} onClick={handleNotification} />
+        ) : (
+          <NotificationsActiveIcon value={noti} onClick={handleNotification} />
+        )}
         <div style={noti ? styles.prueba : styles.prueba2}>
-          {
-            notifications.length === 0 ? <p style={styles.cero}>No hay notificaciones nuevas</p>
-            : notifications.map(e => {
+          {notifications.length === 0 ? (
+            <p style={styles.cero}>No hay notificaciones nuevas</p>
+          ) : (
+            notifications.map((e) => {
               return (
                 <div key={e.id} style={styles.asdd}>
-                  
-                  <p><Link style={styles.link} to='/settings/notifications'>Nueva Notificacion</Link></p>
-                  
-                  
+                  <p>
+                    <Link style={styles.link} to="/settings/notifications">
+                      Nueva Notificacion
+                    </Link>
+                  </p>
                 </div>
-              )
+              );
             })
-          }
+          )}
         </div>
-        </div>
-        
-        {/* </Link> */}
+      </div>
+
+      {/* </Link> */}
 
       <Tooltip title="Account settings">
         <IconButton
@@ -164,9 +164,9 @@ export default function Navbar() {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }}>
+          <Avatar sx={{ width: 52, height: 52 }}>
             {estado[0]?.img ? (
-              <img src={estado[0]?.img} alt="?" width="32px" height="32px" />
+              <img src={estado[0]?.img} alt="?" width="52px" height="52px" />
             ) : (
               "?"
             )}
@@ -214,9 +214,12 @@ export default function Navbar() {
           </MenuItem>
         </Link>
         <Divider />
-        <Link style={estado[0]?.admin === true ? styles.admin : styles.noAdmin} to="/admin/dashboard">
+        <Link
+          style={estado[0]?.admin === true ? styles.admin : styles.noAdmin}
+          to="/admin/dashboard"
+        >
           <MenuItem>
-            <Settings/> Admin
+            <Settings /> Admin
           </MenuItem>
         </Link>
         <Divider />

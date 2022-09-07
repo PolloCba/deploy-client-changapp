@@ -8,7 +8,7 @@ import {
 } from "../../../redux/actions";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import toast, {Toaster} from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import styles from "../../Servicios/AuxService/style";
@@ -52,8 +52,6 @@ export default function UpdateService() {
     dispatch(getServiceById(param.id));
   }, [dispatch, param.id]);
 
-
-
   //PARA LEER LOS CAMBIOS
   const handleOnChange = (e) => {
     e.preventDefault();
@@ -70,78 +68,76 @@ export default function UpdateService() {
   };
 
   //AGREGAR DIAS DISPONIBLES
-  const handleOnClick = (e) => {
+
+  const handleDay = (e) => {
     if (!service.day.includes(e.target.value)) {
+      e.target.style.cssText = "color: #E5E7EB; background-color: #1F2937";
       setService({
         ...service,
         day: [...service.day, e.target.value],
       });
     } else {
-      console.log("Ya lo agregaste");
+      e.target.style.cssText = "color: #1F2937; background-color: #E5E7EB";
+      setService({
+        ...service,
+        day: service.day.filter((el) => el !== e.target.value),
+      });
     }
   };
 
-//manejo de horarios de disponibilidad
-const handleTime = (e) => {
-  let inputValue = document.getElementById("time");
-  if (inputValue.value !== "" && !service.hours.includes(inputValue.value)) {
+
+  //manejo de horarios de disponibilidad
+  const handleTime = (e) => {
+    let inputValue = document.getElementById("time");
+    if (inputValue.value !== "" && !service.hours.includes(inputValue.value)) {
+      setService({
+        ...service,
+        hours: [...service.hours, inputValue.value].sort(function (a, b) {
+          return Number(a.split(":")[0]) - Number(b.split(":")[0]);
+        }),
+      });
+    }
+  };
+
+  const handlePlusTime = (e) => {
+    let element = document.getElementById("time");
+    let input = document.getElementById("time").value;
+    input = input.split(":");
+
+    if (!input[0]) element.value = "08:00";
+    else {
+      if (element.value === "20:00") {
+        element.value = "08:00";
+      } else {
+        input[0] = Number(input[0]) + 1;
+        input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0].toString();
+        element.value = input.join(":");
+      }
+    }
+  };
+
+  const handleLessTime = (e) => {
+    let element = document.getElementById("time");
+    let input = document.getElementById("time").value;
+    input = input.split(":");
+
+    if (!input[0]) element.value = "20:00";
+    else {
+      if (element.value === "08:00") {
+        element.value = "20:00";
+      } else {
+        input[0] = Number(input[0]) - 1;
+        input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0].toString();
+        element.value = input.join(":");
+      }
+    }
+  };
+  const handleDeleteTime = (e) => {
     setService({
       ...service,
-      hours: [...service.hours, inputValue.value],
+      hours: service.hours.filter((el) => el !== e.target.value),
     });
-  }
-};
-
-const handlePlusTime = (e) => {
-  let element = document.getElementById("time");
-  if (!element.value) element.value = "00:00";
-  let input = document.getElementById("time").value;
-  input = input.split(":");
-
-  if (element.value === "23:30") {
-    element.value = "00:00";
-  } else {
-    if (Number(input[1]) === 30) {
-      input[1] = "00";
-      input[0] = (Number(input[0]) + 1).toString();
-      input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0];
-    } else if (Number(input[1]) !== 30) {
-      input[1] = "30";
-    } else if (element.value === "23:30") {
-      element.value = "00:00";
-    }
-
-    element.value = input.join(":");
-  }
-};
-
-const handleLessTime = (e) => {
-  let element = document.getElementById("time");
-  if (!element.value) element.value = "00:00";
-  let input = document.getElementById("time").value;
-  input = input.split(":");
-
-  if (element.value === "00:00") {
-    element.value = "23:30";
-  } else {
-    if (input[1] === "00") {
-      input[1] = "30";
-      input[0] = (Number(input[0]) - 1).toString();
-      input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0];
-    } else if (input[1] !== "00") {
-      input[1] = "00";
-    }
-    element.value = input.join(":");
-  }
-};
-
-const handleDeleteTime = (e) => {
-  setService({
-    ...service,
-    hours: service.hours.filter((el) => el !== e.target.value),
-  });
-};
-
+  };
 
   //ENVIAR DATA DEL FORMULARIO
   const handleSubmit = (e) => {
@@ -154,7 +150,7 @@ const handleDeleteTime = (e) => {
       service.description = idService[0]?.description;
     service.email = idService[0].user.email;
     if (service.day === "") service.day = idService[0]?.day;
-    if (service.hours === '') service.hours = idService[0]?.hours
+    if (service.hours === "") service.hours = idService[0]?.hours;
     if (
       noti.message === "" &&
       noti.userNotification_id === "" &&
@@ -166,14 +162,23 @@ const handleDeleteTime = (e) => {
     }
     dispatch(postNotification(noti));
     dispatch(updateService(param.id, service));
-    toast.success('Servicio actualizado')
+    toast.success("Servicio actualizado");
     setTimeout(() => {
       navigate("/settings/services");
     }, 2000);
   };
 
   return (
-    <Box sx={{ width:'70%', display: "flex", flexDirection: "column", gap: "20px" }}>
+    <Box
+      sx={{
+        width: "70%",
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        textAlign: "center",
+      }}
+      pt={2}
+    >
       <Toaster position="top-center" reverseOrder={false} />
       <Typography variant="h6">Modificar servicio</Typography>
       {error && <p>{error.name}</p>}
@@ -181,8 +186,8 @@ const handleDeleteTime = (e) => {
         onSubmit={(e) => handleSubmit(e)}
         style={{ display: "flex", flexDirection: "column", gap: "20px" }}
       >
-        <Box sx={{ display: "flex", gap: "20px" }}>
-          <label>Nombre del servicio</label>
+        <Box sx={{ display: "flex", gap: "20px", justifyContent: "center" }}>
+          <label>Nombre </label>
           <TextField
             type="text"
             name="name"
@@ -190,113 +195,6 @@ const handleDeleteTime = (e) => {
             value={service.name}
             onChange={handleOnChange}
           />
-        </Box>
-        <Box sx={{ display: "flex", gap: "20px", flexWrap: "warp" }}>
-          <label>Dias disponibles</label>
-          {[
-            "Lunes",
-            "Martes",
-            "Miercoles",
-            "Jueves",
-            "Viernes",
-            "Sabado",
-            "Domingo",
-          ].map((e) => {
-            return (
-              <Button
-                sx={{ maxWidth: "100px" }}
-                onClick={handleOnClick}
-                value={e}
-                type="button"
-                key={e}
-              >
-                {e}
-              </Button>
-            );
-          })}
-        </Box>
-        <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  variant="h7"
-                  sx={{ textAlign: "center", padding: "30px" }}
-                >
-                  Agregá horarios de disponibilidad
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    width: "30%",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Box sx={{ display: "flex" }}>
-                    <input
-                      style={styles.time}
-                      id="time"
-                      type="time"
-                      step={1800}
-                    />
-
-                    <Box sx={{ display: "flex" }}>
-                      <Button
-                        variant="outlined"
-                        onClick={(e) => handlePlusTime(e)}
-                        sx={{ minWidth: "30px" }}
-                      >
-                        <ExpandLessIcon />
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        onClick={(e) => handleLessTime(e)}
-                        sx={{ minWidth: "30px" }}
-                      >
-                        <ExpandMoreIcon />
-                      </Button>
-                    </Box>
-                  </Box>
-                  <Button
-                    onClick={handleTime}
-                    sx={{ width: "40px", height: "45px", outline: "none" }}
-                    variant="outlined"
-                  >
-                    ➕
-                  </Button>
-                </Box>
-                <Box sx={{ display: "flex", width: "100%" }}>
-                  <Box style={styles.hourAdded}>
-                    {service?.hours?.map((el) => {
-                      return (
-                        <Box
-                          key={el.id}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: "5px",
-                          }}
-                        >
-                          <Typography>{el}</Typography>
-                          <Button
-                            value={el}
-                            onClick={(e) => handleDeleteTime(e)}
-                            sx={{ minWidth: "20px", padding: "0" }}
-                          >
-                            ✖
-                          </Button>
-                        </Box>
-                      );
-                    })}
-                  </Box>
-                </Box>
-              </Box>
-            {/* </Box> */}
-        <Box sx={{ display: "flex", gap: "120px" }}>
           <label>Precio</label>
           <TextField
             type="number"
@@ -306,9 +204,128 @@ const handleDeleteTime = (e) => {
             onChange={handleOnChange}
           />
         </Box>
-        <Box sx={{ display: "flex", gap: "80px" }}>
+        <Box
+          variant="contained"
+          sx={{
+            display: "flex",
+            gap: "20px",
+            flexDirection: "column",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "",
+          }}
+        >
+          <label>Dias disponibles</label>
+          <Box>
+            {[
+              "Lunes",
+              "Martes",
+              "Miercoles",
+              "Jueves",
+              "Viernes",
+              "Sabado",
+              "Domingo",
+            ].map((e) => {
+              return (
+                <Button
+                  sx={{ maxWidth: "100px" }}
+                  onClick={handleDay}
+                  value={e}
+                  type="button"
+                  key={e}
+                >
+                  {e}
+                </Button>
+              );
+            })}
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h7"
+            sx={{ textAlign: "center", padding: "30px" }}
+          >
+            Agregá horarios de disponibilidad
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "30%",
+              justifyContent: "center",
+            }}
+          >
+            <Box sx={{ display: "flex" }}>
+              <input
+                style={styles.time}
+                id="time"
+                type="time"
+                step={3600}
+                min={"08:00"}
+                max={"20:00"}
+              />
+
+              <Box sx={{ display: "flex" }}>
+                <Button
+                  variant="outlined"
+                  onClick={(e) => handlePlusTime(e)}
+                  sx={{ minWidth: "30px" }}
+                >
+                  <ExpandLessIcon />
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={(e) => handleLessTime(e)}
+                  sx={{ minWidth: "30px" }}
+                >
+                  <ExpandMoreIcon />
+                </Button>
+              </Box>
+            </Box>
+            <Button
+              onClick={handleTime}
+              sx={{ width: "40px", height: "45px", outline: "none" }}
+              variant="outlined"
+            >
+              ➕
+            </Button>
+          </Box>
+          <Box sx={{ display: "flex", width: "100%" }}>
+            <Box style={styles.hourAdded}>
+              {service?.hours?.map((el) => {
+                return (
+                  <Box
+                    key={el.id}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "5px",
+                    }}
+                  >
+                    <Typography>{el}</Typography>
+                    <Button
+                      value={el}
+                      onClick={(e) => handleDeleteTime(e)}
+                      sx={{ minWidth: "20px", padding: "0" }}
+                    >
+                      ✖
+                    </Button>
+                  </Box>
+                );
+              })}
+            </Box>
+          </Box>
+        </Box>
+        <Box sx={{ display: "flex", gap: "80px", justifyContent: "center" }}>
           <label>Descripcion</label>
           <textarea
+            style={{ backgroundColor: "inherit" }}
             name="description"
             cols="40"
             rows="4"

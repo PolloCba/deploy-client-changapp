@@ -14,7 +14,6 @@ export default function Servicios() {
   const { user } = useAuth();
   const userState = useSelector((state) => state.filter);
   const navigate = useNavigate();
-  console.log(userState);
   const dispatch = useDispatch();
 
   useEffect(() => {

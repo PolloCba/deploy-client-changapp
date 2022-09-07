@@ -27,7 +27,8 @@ import {
   POST_REVIEW,
   DELETE_CATEGORY,
   ADMIN_UPDATE,
-  ALL_REVIEWS
+  ALL_REVIEWS,
+  SEARCH_CATEGORY
 
 } from "../actions/index.js";
 
@@ -228,7 +229,12 @@ const reducer = (state = initialStates, action) => {
       return {
         ...state,
         reviews: action.payload
-      }      
+      }
+    case SEARCH_CATEGORY: 
+    return {
+      ...state,
+      categories: action.payload
+    }        
     default:
       return state;
   }

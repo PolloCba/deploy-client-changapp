@@ -8,7 +8,6 @@ import request from './Estilos/request'
 export default function Request() {
   const allReq = useSelector((state) => state.allRequest);
   const dispatch = useDispatch();
-  console.log(allReq);
   useEffect(() => {
     dispatch(allRequest());
   }, [dispatch]);

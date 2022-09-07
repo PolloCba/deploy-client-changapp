@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllCategories } from "../../../redux/actions";
-
+import CircularProgress from '@mui/material/CircularProgress';
 import "../../css/home.css";
 
 export default function Category() {
@@ -36,13 +36,10 @@ export default function Category() {
       <div className="card-category-container">
         {category &&
           category?.map((e) => {
-            console.log(category);
             return (
               <Link key={e.id} to={`/home/${e.name}`}>
                 
                   <div className="card-category" style={{backgroundImage:`url(${e.img})`}}>
-                    {/* <img  alt={e.name} height="200px" width="300px" /> */}
-                    {/* <Button value={e.name} onClick={handleOnClick}>Ir</Button> */}
                   </div>
                     <h3 className="title-category">{e.name}</h3>
                 

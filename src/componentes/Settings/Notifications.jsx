@@ -6,7 +6,7 @@ import {
   getUserEmail,
 } from "../../redux/actions";
 import { useAuth } from "../../context/authContext";
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import "../css/empty.css";
 
 import styles from "./Request/style";
@@ -47,10 +47,10 @@ export default function Notifications() {
     window.scrollTo(0, 0);
   };
 
-  useEffect(() => {
-    dispatch(allNotifications());
-    dispatch(getUserEmail(user?.email));
-  }, [dispatch, user?.email]);
+  // useEffect(() => {
+  //   dispatch(allNotifications());
+  //   dispatch(getUserEmail(user?.email));
+  // }, [dispatch, user?.email]);
 
   const handleOnClick = (e) => {
     e.preventDefault();
@@ -64,14 +64,17 @@ export default function Notifications() {
     <Box
       sx={{
         width: "70%",
+        height:'88vh',
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-between",
+        flexDirection:'column'
       }}
     >
       <Box
         sx={{
-          width: "100%",
+          width: "95%",
+          height:'80%',
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -133,16 +136,14 @@ export default function Notifications() {
             );
           })
         )}
-        <div style={styles.paginadoDiv}>
-          <button style={styles.btnPaginado} onClick={handleAnterior}>
-            {"<"}
-          </button>
-          {pages} of {paginas}
-          <button style={styles.btnPaginado} onClick={handleSiguiente}>
-            {">"}
-          </button>
-        </div>
+
       </Box>
+      <Box style={styles.paginadoDiv}>
+          <button style={styles.btnPaginado} onClick={handleAnterior}>{'<'}</button>
+          {pages} of {paginas}
+          <button style={styles.btnPaginado} onClick={handleSiguiente}>{'>'}</button>
+        </Box>
+
     </Box>
   );
 }

@@ -1,39 +1,23 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getName } from "../redux/actions/index.js";
+import { useDispatch } from "react-redux";
+import { getName, searchCategory } from "../redux/actions/index.js";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import { useLocation } from "react-router-dom";
 
+const styles = {
+  button: {
+    color: "white",
+  },
+  input: {
+    padding: "7px",
+  },
+};
 export default function SearchBar() {
-  // const [name, setName] = useState("");
-
-  // const handlerInput = (e) => {
-  //   e.preventDefault();
-  //   const value = e.target.value;
-  //   const value2 = value.charAt(0).toUpperCase() + value.slice(1);
-  //   setName(value2);
-  // };
-
-  // const handlerButton = (e) => {
-  //   e.preventDefault();
-  //   setName("");
-  // };
-
-  const styles = {
-    button: {
-      color: "white",
-    },
-    input: {
-      padding: "7px",
-    },
-  };
-
+  const location = useLocation()
   const dispatch = useDispatch();
   const [name, setName] = useState("");
-  // const services = useSelector()
   function handleInput(e) {
     e.preventDefault();
     const value = e.target.value;
@@ -48,11 +32,17 @@ export default function SearchBar() {
     setName("");
   }
 
+  const handleSearchCat = (e) =>{
+    e.preventDefault();
+    dispatch(searchCategory(name))
+    setName('')
+  }
   return (
     <div>
+      <form onSubmit={location.pathname === '/home' ? (e) => handleSearchCat(e) : (e) => handleSubmit(e)}>
       <input
         style={styles.input}
-        placeholder="Buscar Servicio..."
+        placeholder={location.pathname === '/home' ? 'Buscar categoria...' : 'Buscar servicio...'}
         type="text"
         value={name}
         onChange={(e) => handleInput(e)}
@@ -60,10 +50,10 @@ export default function SearchBar() {
       <Button
         style={styles.button}
         type="submit"
-        onClick={(e) => handleSubmit(e)}
       >
         <SearchIcon></SearchIcon>
       </Button>
+      </form>
     </div>
   );
 }

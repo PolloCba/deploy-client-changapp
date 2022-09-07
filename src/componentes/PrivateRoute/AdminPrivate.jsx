@@ -10,7 +10,6 @@ export default function AdminPrivate({ children }) {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.filter);
-  console.log(userState);
   useEffect(() => {
     dispatch(getUserEmail(user?.email));
   }, [dispatch, user?.email]);

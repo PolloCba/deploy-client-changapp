@@ -48,6 +48,8 @@ function validate(service) {
     error.description = "La descripcion es muy larga";
   //ERROR PRECIO
   // else if (!/^[0-9]$/.test(error.price)) error.price = 'Solo puedes ingresar numeros enteros'
+  else if (service.price < 1 || service.price > 10000)
+  error.price = "El valor esta fuera del rango";
   return error;
 }
 
@@ -129,6 +131,7 @@ export default function FormService() {
       service.category &&
       service.day.length &&
       service.hours.length
+
     ) {
       setBtn(true);
     } else {
@@ -159,51 +162,45 @@ export default function FormService() {
     if (inputValue.value !== "" && !service.hours.includes(inputValue.value)) {
       setService({
         ...service,
-        hours: [...service.hours, inputValue.value],
+        hours: [...service.hours, inputValue.value].sort(
+          function (a, b) {  return Number(a.split(':')[0]) - Number(b.split(':')[0]);  }
+          )
       });
     }
   };
 
   const handlePlusTime = (e) => {
     let element = document.getElementById("time");
-    if (!element.value) element.value = "00:00";
     let input = document.getElementById("time").value;
     input = input.split(":");
 
-    if (element.value === "23:30") {
-      element.value = "00:00";
-    } else {
-      if (Number(input[1]) === 30) {
-        input[1] = "00";
-        input[0] = (Number(input[0]) + 1).toString();
-        input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0];
-      } else if (Number(input[1]) !== 30) {
-        input[1] = "30";
-      } else if (element.value === "23:30") {
-        element.value = "00:00";
+    if(!input[0])element.value = "08:00";
+    else{
+      if (element.value === "20:00") {
+        element.value = "08:00";
+      } else {
+        input[0] = Number(input[0])+1;
+        input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0].toString();
+        element.value = input.join(":");
       }
-
-      element.value = input.join(":");
     }
+
   };
 
   const handleLessTime = (e) => {
     let element = document.getElementById("time");
-    if (!element.value) element.value = "00:00";
     let input = document.getElementById("time").value;
     input = input.split(":");
 
-    if (element.value === "00:00") {
-      element.value = "23:30";
-    } else {
-      if (input[1] === "00") {
-        input[1] = "30";
-        input[0] = (Number(input[0]) - 1).toString();
-        input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0];
-      } else if (input[1] !== "00") {
-        input[1] = "00";
+    if(!input[0])element.value = "20:00";
+    else{
+      if (element.value === "08:00") {
+        element.value = "20:00";
+      } else {
+        input[0] = Number(input[0])-1;
+        input[0] = input[0] < 10 ? "0".concat(input[0]) : input[0].toString();
+        element.value = input.join(":");
       }
-      element.value = input.join(":");
     }
   };
 
@@ -415,7 +412,9 @@ export default function FormService() {
                       style={styles.time}
                       id="time"
                       type="time"
-                      step={1800}
+                      step={3600}
+                      min={"08:00"} 
+                      max={"20:00"}
                     />
 
                     <Box sx={{ display: "flex" }}>

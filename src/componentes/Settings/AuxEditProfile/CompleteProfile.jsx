@@ -45,9 +45,9 @@ export default function CompleteProfile() {
   const dispatch = useDispatch();
   
   //PARA TRAER LA DATA DE BASE DE DATOS
-  useEffect(() => {
-    dispatch(getUserEmail(user?.email));
-  }, [dispatch, user?.email]);
+  // useEffect(() => {
+  //   dispatch(getUserEmail(user?.email));
+  // }, [dispatch, user?.email]);
 
   //PARA QUE NO PONGAN CUALQUIER INFORMACION
   useEffect(() => {

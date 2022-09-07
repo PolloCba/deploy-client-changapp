@@ -3,27 +3,30 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/authContext";
 import Footer from "../Footer";
-import Paging from "../Paging";
 import Navbar from "../PrivateRoute/Navbar";
 import Reviews from "../reviews/Reviews";
 import Category from "./AuxHome/Category";
-
+import CircularProgress from '@mui/material/CircularProgress';
 import '../css/revwievs.css'
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCategories } from "../../redux/actions";
 
 
 export default function Guardar() {
-  const [loading, setLoading] = useState(true);
   const { user } = useAuth();
-
+  const category = useSelector((state) => state.categories);
+  const dispatch = useDispatch()
   useEffect(() => {
-    if (user) setLoading(false);
-  }, [user, setLoading]);
+    dispatch(getAllCategories())
+  },[dispatch]);
 
-  if (loading)
+  if (category.length === 0)
     return (
-      <div>
+      <div style={{backgroundColor: 'rgba(0, 0, 0, 0.644)'}}>
         <Navbar />
-        <h1>Cargando datos...</h1>
+      <div style={{display:'flex' ,height: '80vh', alignItems:'center', justifyContent: 'center'}}>
+        <CircularProgress />
+      </div>
         <Footer />
       </div>
     );
@@ -42,3 +45,5 @@ export default function Guardar() {
       </div>
     );
 }
+
+

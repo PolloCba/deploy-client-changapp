@@ -70,7 +70,7 @@ export default function RequestService(props) {
     dispatch(allRequest());
     setLoading(false);
   }, [dispatch, user?.email]);
-  console.log(request)
+  
   const weekDays = [
     "Lunes",
     "Martes",
@@ -111,7 +111,6 @@ export default function RequestService(props) {
       });
     }
   };
-  console.log(requests)
   const handleSubmit = (e) => {
     e.preventDefault();
     if (userDb.length === 0) {

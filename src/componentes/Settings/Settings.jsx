@@ -1,6 +1,6 @@
 import { Box, Divider, Typography } from "@mui/material";
 import React, { useEffect} from "react";
-import { NavLink, Outlet, useLocation} from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate} from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import Navbar from "../PrivateRoute/Navbar";
 import Footer from "../Footer";
@@ -12,13 +12,14 @@ import WorkIcon from '@mui/icons-material/Work';
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
 import LogoutIcon from '@mui/icons-material/Logout';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import { useSelector, useDispatch } from "react-redux";
-import { getUserEmail, allNotifications } from "../../redux/actions";
+import { getUserEmail, allNotifications, getAllReviews, allRequest, getAllServices } from "../../redux/actions";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Settings(id) {
-
   const dispatch = useDispatch();
-  
+  const navigate = useNavigate()
   const location = useLocation()
   const { user, logout } = useAuth();
 
@@ -31,15 +32,22 @@ export default function Settings(id) {
   const totalRequestsMade = userData?.requester.length;
   const totalReviews = userData?.reviews.length;
 
+  //PARA QUE NO EXPLOTE Y SE RECARGUE MUCHAS VECES
+  const userDb = useSelector(state => state.filter)
+
   useEffect(() => {
+    dispatch(allNotifications())
+    dispatch(getAllReviews())
+    dispatch(getAllServices())
+    dispatch(allRequest())  
     dispatch(getUserEmail(user?.email));
-    dispatch(allNotifications())  
 
   }, [dispatch, user?.email]);
  
   const handleClick = (e) => {
     e.preventDefault()
     logout()
+    navigate('/')
   }
 
   const handleSelected = ({ isActive }) => {
@@ -88,7 +96,16 @@ export default function Settings(id) {
     },
     
   }
-  
+  if (userDb.length === 0)
+    return (
+      <div style={{backgroundColor: 'rgba(0, 0, 0, 0.644)'}}>
+        <Navbar />
+      <div style={{display:'flex' ,height: '80vh', alignItems:'center', justifyContent: 'center'}}>
+        <CircularProgress />
+      </div>
+        <Footer />
+      </div>
+    );
   return (
     <Box>
 
@@ -127,7 +144,7 @@ export default function Settings(id) {
                 <Box sx={{display:'flex', alignItems:'center'}}>
                   <NotificationsIcon id="notificationsIcon" style={location?.pathname === '/settings/notifications' ? styles.icons2 : styles.icons}/>
                   <Typography style={styles.listText}>Notificaciones</Typography>
-                  <label style={{width:'20%', textAlign:'right', padding:'0 4%', fontWeight:'bold', cursor:'pointer'}} htmlFor="">{totalNotifications}</label>
+                  <label style={{width:'20%', textAlign:'right', padding:'0 4%', fontWeight:'bold', cursor:'pointer'}} htmlFor="">{totalNotifications >= 99 ? `+${99}` : totalNotifications}</label>
                 </Box>
               </NavLink>
 
@@ -145,7 +162,7 @@ export default function Settings(id) {
 
               <NavLink style={(e)=>handleSelected(e)} to='reviews'>
                 <Box sx={{display:'flex', alignItems:'center'}}>
-                  <WorkIcon id="servicesIcon" style={location?.pathname === '/settings/reviews' ? styles.icons2 : styles.icons}/>
+                  <RateReviewIcon id="servicesIcon" style={location?.pathname === '/settings/reviews' ? styles.icons2 : styles.icons}/>
                   <Typography style={styles.listText}>Reseñas</Typography>
                   <label style={{width:'20%', textAlign:'right', padding:'0 4%', fontWeight:'bold'}} htmlFor="">{totalReviews}</label>
                 </Box>
@@ -173,12 +190,12 @@ export default function Settings(id) {
 
               <Divider variant="inset" />
 
-              <NavLink style={styles.links} to='/login' onClick={handleClick}>
-                <Box sx={{display:'flex', alignItems:'center'}}>
+              {/* <NavLink style={styles.links} to='/login' > */}
+                <Box sx={{display:'flex', alignItems:'center'}} onClick={handleClick}>
                   <LogoutIcon style={styles.icons}/>
                   <Typography style={styles.listText}>Cerrar Sesion</Typography>
                 </Box>
-              </NavLink>
+              {/* </NavLink> */}
             </Box>
             
 

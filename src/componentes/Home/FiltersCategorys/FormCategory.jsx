@@ -8,7 +8,7 @@ export default function FormCategory(){
     const categoryState = useSelector(state => state.categories)
     const dispatch = useDispatch()
     const [cat, setCat] = useState('')
-    const [ setSelect] = useState('')    
+    const [ select, setSelect] = useState('')    
     const navigate = useNavigate()
     useEffect(() => {
         dispatch(getAllCategories())
@@ -41,8 +41,8 @@ export default function FormCategory(){
     
     return(
         <div className="form-filter-services">
-            <select name="precios" onChange={handleSort}>
-                <option value="neutro">Precios</option>
+            <select style={{width: "65%", margin:"auto"}} name="precios" onChange={handleSort}>
+                <option value="neutro">Ordenar por</option>
                 <option value="mayor">Mayor precio</option>
                 <option value="menor">Menor precio</option>
             </select>

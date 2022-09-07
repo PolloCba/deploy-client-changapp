@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { useAuth } from "../../context/authContext";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserEmail } from "../../redux/actions";
-
-
 import { Link } from "react-router-dom";
 import CompleteProfile from "./AuxEditProfile/CompleteProfile";
 import UpdateProfile from "./AuxEditProfile/UpdateProfile";
