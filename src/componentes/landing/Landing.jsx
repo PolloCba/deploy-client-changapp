@@ -7,7 +7,6 @@ import Nav from "./LandingNav";
 import Footer from "../Footer";
 
 export default function Landing() {
-
   return (
     <div>
       <Nav />
@@ -38,8 +37,7 @@ export default function Landing() {
             <Typography variant="h4">Qué es ChangApp?</Typography>
             <Typography variant="p">
               Changa app es una aplicación web que te ayuda a ofrecer y/o
-              contratar servicios. Como cliente vas a encontrar los
-              profesionales más destacados del mercado.
+              contratar servicios.
             </Typography>
           </Box>
           <Box variant="div" className="primeraPregunta">
@@ -59,7 +57,6 @@ export default function Landing() {
           </Box>
         </Box>
       </Box>
-    
 
       <Footer />
     </div>
