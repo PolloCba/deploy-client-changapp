@@ -50,7 +50,7 @@ export default function PublicProfile() {
         sx={{
           display: "flex",
           padding: "0 2% 2% 2%",
-          height: "75vh",
+          height: "100vh",
           alignContent: "center",
         }}
       >
