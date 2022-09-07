@@ -28,8 +28,7 @@ import {
   DELETE_CATEGORY,
   ADMIN_UPDATE,
   ALL_REVIEWS,
-  SEARCH_CATEGORY
-
+  SEARCH_CATEGORY,
 } from "../actions/index.js";
 
 const initialStates = {
@@ -54,9 +53,8 @@ const initialStates = {
   deleteNotification: [],
   postReview: [],
   user: [],
-  reviews:[]
-
-
+  reviews: [],
+  category: {},
 };
 
 const reducer = (state = initialStates, action) => {
@@ -203,38 +201,38 @@ const reducer = (state = initialStates, action) => {
     case USER_BY_ID:
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
       };
-      case NEW_BANNED_STATE:
-        return {
-          ...state,
-          user: [...state.user, {...action.payload}]
-        };
-      case DELETE_CATEGORY:
-        return{
-          ...state,
-          categories: action.payload
-        }
+    case NEW_BANNED_STATE:
+      return {
+        ...state,
+        user: [...state.user, { ...action.payload }],
+      };
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+        category: action.payload,
+      };
     case POST_REVIEW:
-      return{
+      return {
         ...state,
-        postReview: [...state.postReview, {...action.payload}]
-      }
-    case ADMIN_UPDATE: 
-      return{
+        postReview: [...state.postReview, { ...action.payload }],
+      };
+    case ADMIN_UPDATE:
+      return {
         ...state,
-        user: [...state.user, {...action.payload}]
-      }  
+        user: [...state.user, { ...action.payload }],
+      };
     case ALL_REVIEWS:
       return {
         ...state,
-        reviews: action.payload
-      }
-    case SEARCH_CATEGORY: 
-    return {
-      ...state,
-      categories: action.payload
-    }        
+        reviews: action.payload,
+      };
+    case SEARCH_CATEGORY:
+      return {
+        ...state,
+        categories: action.payload,
+      };
     default:
       return state;
   }
