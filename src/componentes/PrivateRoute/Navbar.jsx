@@ -141,8 +141,11 @@ export default function Navbar() {
             notifications.map((e) => {
               return (
                 <div key={e.id} style={styles.asdd}>
-                  <p>
-                    <Link style={styles.link} to="/settings/notifications">
+                  <p style={{ backgroundColor: "black" }}>
+                    <Link
+                      style={{ textDecoration: "none", color: "white" }}
+                      to="/settings/notifications"
+                    >
                       Nueva Notificacion
                     </Link>
                   </p>
