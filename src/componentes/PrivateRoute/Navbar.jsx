@@ -138,6 +138,7 @@ export default function Navbar() {
           {notifications.length === 0 ? (
             <p
               style={{
+                backgroundColor: "black",
                 textDecoration: "none",
                 color: "white",
                 textAlign: "center",
