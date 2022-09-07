@@ -34,6 +34,7 @@ export default function Adminnavbar() {
           alignItems: "baseline",
           color: "white",
           backgroundColor: "#1F2937",
+          paddingLeft: "5px",
         }}
       >
         <div>
