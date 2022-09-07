@@ -99,7 +99,7 @@ export default function UserDetail() {
                     <li>Nombre: {serv.name}</li>
                     <li>Precio: {serv.price}</li>
                     <li>Descripción: {serv.description}</li>
-                    <li>Dias/Disp: {serv.days}</li>
+                    <li>Dias/Disp: {serv.day}</li>
                     <li>Horas/Disp: {serv.hours}</li>
                   </ul>
                   <Button
