@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { getUserEmail } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import "../css/profile.css";
@@ -27,12 +27,15 @@ export default function Profile() {
     return (
       <Box sx={{ width: "70%" }}>
         {user?.email === null ? (
-          <Box sx={{ display: "flex" }}>
-            No tienes acceso a estos datos ya que ingresaste como un usuario
-            anonimo. Ve a la seccion de registrar para poder utilizar estos
-            servicios.
-            <Link to="/register">Registrarse</Link>
-          </Box>
+         <Box sx={{textAlign: 'center', heigth: '100vh', padding: '21%'}}>
+
+         <Typography>
+           No tienes acceso a estos datos ya que ingresaste como un usuario
+           anonimo. Ve a la seccion de registrar para poder utilizar estos
+           servicios.
+           <NavLink style={{fontWeight: '700'}} to="/register">Registrarse</NavLink>
+         </Typography>
+         </Box>
         ) : estado.length === 0 ? navigate("/settings/edit") : (
          
           <Box

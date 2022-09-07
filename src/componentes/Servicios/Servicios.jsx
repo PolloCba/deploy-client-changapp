@@ -6,9 +6,10 @@ import { getUserEmail } from "../../redux/actions";
 import Footer from "../Footer";
 import { useAuth } from "../../context/authContext";
 import Navbar from "../PrivateRoute/Navbar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import FormService from "./AuxService/FormService";
 import { Box } from "@mui/system";
+import { Typography } from "@mui/material";
 
 export default function Servicios() {
   const { user } = useAuth();
@@ -24,12 +25,15 @@ export default function Servicios() {
     <Box>
       <Navbar />
       {user?.email === null ? (
-        <p>
+        <Box sx={{textAlign: 'center', heigth: '100vh',  padding: '21%'}}>
+
+        <Typography>
           No tienes acceso a estos datos ya que ingresaste como un usuario
           anonimo. Ve a la seccion de registrar para poder utilizar estos
           servicios.
-          <Link to="/register">Registrarse</Link>
-        </p>
+          <NavLink style={{fontWeight: '700'}} to="/register">Registrarse</NavLink>
+        </Typography>
+        </Box>
       ) : (
         <FormService />
       )}
