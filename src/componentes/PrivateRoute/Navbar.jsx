@@ -136,14 +136,28 @@ export default function Navbar() {
         )}
         <div style={noti ? styles.prueba : styles.prueba2}>
           {notifications.length === 0 ? (
-            <p style={styles.cero}>No hay notificaciones nuevas</p>
+            <p
+              style={{
+                textDecoration: "none",
+                color: "white",
+                textAlign: "center",
+                margin: "15px 5px",
+              }}
+            >
+              No hay notificaciones nuevas
+            </p>
           ) : (
             notifications.map((e) => {
               return (
                 <div key={e.id} style={styles.asdd}>
                   <p style={{ backgroundColor: "black" }}>
                     <Link
-                      style={{ textDecoration: "none", color: "white" }}
+                      style={{
+                        textDecoration: "none",
+                        color: "white",
+                        textAlign: "center",
+                        margin: "15px 5px",
+                      }}
                       to="/settings/notifications"
                     >
                       Nueva Notificacion
