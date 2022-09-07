@@ -1,13 +1,18 @@
-import { Box, Button, IconButton, Input, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Input,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {  useNavigate } from "react-router-dom";
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { useNavigate } from "react-router-dom";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { postCategory } from "../../redux/actions/index.js";
 import axios from "axios";
 import { CLODUNIARY_API } from "../../Secret/Secret.js";
-
-
 
 export default function CreateCategory() {
   const [category, setCategory] = useState({
@@ -46,14 +51,13 @@ export default function CreateCategory() {
     }
   };
 
-
-
-
   const handleSumbit = async (e) => {
     e.preventDefault();
     dispatch(postCategory(category));
     setError("");
-    navigate("/admin/categories");
+    setTimeout(function () {
+      navigate("/admin/categories");
+    }, 2000);
   };
 
   const styles = {
@@ -121,17 +125,22 @@ export default function CreateCategory() {
                 value={category.img}
                 onChange={handleOnChange}
               /> */}
-              <IconButton color="primary" aria-label="subir imagen" type="file" component="label" >
-                <Input
-                variant="outlined"
-                hidden
-                accept="image/jpeg, image/png"  
+              <IconButton
+                color="primary"
+                aria-label="subir imagen"
                 type="file"
-                name="img"
-                // value={category.img}
-                onChange={handleImage}
-                 />
-                 {/* <AddAPhotoIcon /> */}
+                component="label"
+              >
+                <Input
+                  variant="outlined"
+                  hidden
+                  accept="image/jpeg, image/png"
+                  type="file"
+                  name="img"
+                  // value={category.img}
+                  onChange={handleImage}
+                />
+                {/* <AddAPhotoIcon /> */}
               </IconButton>
               <Button variant="contained" style={styles.button} type="submit">
                 Crear
