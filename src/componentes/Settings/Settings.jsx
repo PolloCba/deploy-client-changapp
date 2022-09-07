@@ -4,6 +4,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import Navbar from "../PrivateRoute/Navbar";
 import Footer from "../Footer";
+import CompleteProfile from "./AuxEditProfile/CompleteProfile";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import HomeIcon from "@mui/icons-material/Home";
 import EditIcon from "@mui/icons-material/Edit";
