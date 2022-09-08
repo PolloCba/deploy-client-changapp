@@ -124,7 +124,8 @@ export default function Navbar() {
       </Typography>
       {location.pathname !== "/home/todos" &&
       location.pathname !== "/home" &&
-      location.pathname !== `/home/${currentCategory.name}` ? null : (
+      location.pathname.split("%20").join(" ") !==
+        `/home/${currentCategory.name}` ? null : (
         <SearchBar style={styles.button} />
       )}
       <div>
