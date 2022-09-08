@@ -232,12 +232,25 @@ export default function Navbar() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <Link to="/settings/profile" style={styles.admin}>
-          <MenuItem>
-            <Avatar /> Perfil
-          </MenuItem>
-        </Link>
-        <Divider />
+        {user?.isAnonymous === false ? (
+          <div>
+            <Link to="/settings/profile" style={styles.admin}>
+              <MenuItem>
+                <Avatar /> Perfil
+              </MenuItem>
+            </Link>
+            <Divider />
+          </div>
+        ) : (
+          <div>
+            <Link to="/register" style={styles.admin}>
+              <MenuItem>
+                <Avatar /> Registrarse
+              </MenuItem>
+            </Link>
+            <Divider />
+          </div>
+        )}
         <Link
           style={estado[0]?.admin === true ? styles.admin : styles.noAdmin}
           to="/admin/dashboard"
