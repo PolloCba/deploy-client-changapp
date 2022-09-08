@@ -133,6 +133,7 @@ export default function StateRequest() {
       margin: "2%",
       padding: "2%",
       borderRadius: "10px",
+      width: "80%",
     },
     rejected: {
       display: "flex",
@@ -140,6 +141,7 @@ export default function StateRequest() {
       margin: "2%",
       padding: "2%",
       borderRadius: "10px",
+      width: "80%",
     },
     pending: {
       display: "flex",
@@ -147,6 +149,7 @@ export default function StateRequest() {
       margin: "2%",
       padding: "2%",
       borderRadius: "10px",
+      width: "80%",
     },
     btnPaginado: {
       cursor: "pointer",
@@ -175,176 +178,194 @@ export default function StateRequest() {
         flexDirection: "column",
       }}
     >
-      <Toaster position="top-center" reverseOrder={false} />
-      {filterEmail.length === 0 ? (
-        <Box
-          className="empty-container"
-          sx={{
-            textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Box className="low-section" pl={2}>
-            {<img src={error} alt="?" width="182px" height="182px" />}
-            <Typography variant="h6" mb={5}>
-              Para ver los estados del servicio, primero debes publicar uno,
-              dirigete a la seccion{" "}
-              <NavLink className="linkk" to="/home/createService">
-                publicar servicio
-              </NavLink>
-            </Typography>
-          </Box>
-        </Box>
-      ) : requestSlice.length === 0 ? (
-        <Box
-          className="empty-container"
-          sx={{
-            textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Box className="low-section" pl={2}>
-            {<img src={error} alt="?" width="182px" height="182px" />}
-            <Typography variant="h6" mb={5}>
-              Aun no has recibido ninguna solicitud
-            </Typography>
-          </Box>
-        </Box>
-      ) : (
-        // filterEmail?.map((p) => {
-        requestSlice.map((e) => {
-          return e.state === "rechazado" || e.state === "Pagado" ? (
-            <Box
-              key={e.id}
-              style={e.state === "rechazado" ? styles.rejected : styles.acepted}
-            >
-              <Typography>
-                La orden #{e.id} del servicio {filterEmail[0].name} fue{" "}
-                {e.state === "Pagado" ? "Pagada" : "Rechazada"}
+      <Box
+        sx={{
+          width: "95%",
+          height: "80%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "4%",
+        }}
+      >
+        <Toaster position="top-center" reverseOrder={false} />
+        {filterEmail.length === 0 ? (
+          <Box
+            className="empty-container"
+            sx={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box className="low-section" pl={2}>
+              {<img src={error} alt="?" width="182px" height="182px" />}
+              <Typography variant="h6" mb={5}>
+                Para ver los estados del servicio, primero debes publicar uno,
+                dirigete a la seccion{" "}
+                <NavLink className="linkk" to="/home/createService">
+                  publicar servicio
+                </NavLink>
               </Typography>
             </Box>
-          ) : (
-            <Box
-              key={e.id}
-              style={
-                e.state === "rechazado"
-                  ? styles.rejected
-                  : e.state === "aceptado"
-                  ? styles.acepted
-                  : styles.pending
-              }
-            >
-              <Box
-                sx={{
-                  width: "25%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Typography sx={{ padding: "5%" }}>Reservado por: </Typography>
-                <img
-                  style={{ width: "100px" }}
-                  src={e.userRequester?.img ? e.userRequester?.img : userImg}
-                  alt="asd"
-                />
-                <Typography sx={{ padding: "5%" }}>
-                  {e.userRequester?.firstName.concat(
-                    ` ${e.userRequester.lastName}`
-                  )}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  width: "50%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-around",
-                  padding: "0 2%",
-                }}
-              >
-                <Typography>Nombre del servicio: {e.services?.name}</Typography>
-                <Typography>Estado: {e.state}</Typography>
-                <Typography>
-                  Trabajo solicitado para el dia {e.day} a las {e.hours}hs
-                </Typography>
-              </Box>
-              <Box sx={{ width: "25%" }}>
-                {e.state === "aceptado" ? (
-                  <form
-                    style={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-around",
-                      padding: "0 2%",
-                    }}
-                    name={e.userRequester.email}
-                    onSubmit={(e) => handleOnSubmit(e)}
-                  >
-                    <Button
-                      name="rechazado"
-                      variant="contained"
-                      value={e.id}
-                      onClick={handleOnClick}
-                    >
-                      Cancelar
-                    </Button>
-
-                    <Button variant="contained" type="submit">
-                      Actualizar
-                    </Button>
-                  </form>
-                ) : e.state === "pendiente" ? (
-                  <form
-                    name={e.userRequester.email}
-                    onSubmit={(e) => handleOnSubmit(e)}
-                    style={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-around",
-                      padding: "0 2%",
-                    }}
-                  >
-                    <Button
-                      id="aceptado"
-                      name="aceptado"
-                      value={e.id}
-                      onClick={handleOnClick}
-                      variant="contained"
-                    >
-                      Aceptar
-                    </Button>
-
-                    <Button
-                      id="rechazado"
-                      name="rechazado"
-                      email={e.userRequester.email}
-                      value={e.id}
-                      onClick={handleOnClick}
-                      variant="contained"
-                    >
-                      Rechazar
-                    </Button>
-
-                    <Button type="submit" variant="contained">
-                      Confirmar
-                    </Button>
-                  </form>
-                ) : (
-                  console.log("asd")
-                )}
-              </Box>
+          </Box>
+        ) : requestSlice.length === 0 ? (
+          <Box
+            className="empty-container"
+            sx={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box className="low-section" pl={2}>
+              {<img src={error} alt="?" width="182px" height="182px" />}
+              <Typography variant="h6" mb={5}>
+                Aun no has recibido ninguna solicitud
+              </Typography>
             </Box>
-          );
-        })
-        // })
-      )}
+          </Box>
+        ) : (
+          // filterEmail?.map((p) => {
+          requestSlice.map((e) => {
+            return e.state === "rechazado" || e.state === "Pagado" ? (
+              <Box
+                key={e.id}
+                style={
+                  e.state === "rechazado" ? styles.rejected : styles.acepted
+                }
+              >
+                <Typography>
+                  La orden #{e.id} del servicio {filterEmail[0].name} fue{" "}
+                  {e.state === "Pagado" ? "Pagada" : "Rechazada"}
+                </Typography>
+              </Box>
+            ) : (
+              <Box
+                key={e.id}
+                style={
+                  e.state === "rechazado"
+                    ? styles.rejected
+                    : e.state === "aceptado"
+                    ? styles.acepted
+                    : styles.pending
+                }
+              >
+                <Box
+                  sx={{
+                    width: "25%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography sx={{ padding: "5%" }}>
+                    Reservado por:{" "}
+                  </Typography>
+                  <img
+                    style={{ width: "100px" }}
+                    src={e.userRequester?.img ? e.userRequester?.img : userImg}
+                    alt="asd"
+                  />
+                  <Typography sx={{ padding: "5%" }}>
+                    {e.userRequester?.firstName.concat(
+                      ` ${e.userRequester.lastName}`
+                    )}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    width: "50%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                    padding: "0 2%",
+                  }}
+                >
+                  <Typography>
+                    Nombre del servicio: {e.services?.name}
+                  </Typography>
+                  <Typography>Estado: {e.state}</Typography>
+                  <Typography>
+                    Trabajo solicitado para el dia {e.day} a las {e.hours}hs
+                  </Typography>
+                </Box>
+                <Box sx={{ width: "25%" }}>
+                  {e.state === "aceptado" ? (
+                    <form
+                      style={{
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-around",
+                        padding: "0 2%",
+                      }}
+                      name={e.userRequester.email}
+                      onSubmit={(e) => handleOnSubmit(e)}
+                    >
+                      <Button
+                        name="rechazado"
+                        variant="contained"
+                        value={e.id}
+                        onClick={handleOnClick}
+                      >
+                        Cancelar
+                      </Button>
+
+                      <Button variant="contained" type="submit">
+                        Actualizar
+                      </Button>
+                    </form>
+                  ) : e.state === "pendiente" ? (
+                    <form
+                      name={e.userRequester.email}
+                      onSubmit={(e) => handleOnSubmit(e)}
+                      style={{
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-around",
+                        padding: "0 2%",
+                      }}
+                    >
+                      <Button
+                        id="aceptado"
+                        name="aceptado"
+                        value={e.id}
+                        onClick={handleOnClick}
+                        variant="contained"
+                      >
+                        Aceptar
+                      </Button>
+
+                      <Button
+                        id="rechazado"
+                        name="rechazado"
+                        email={e.userRequester.email}
+                        value={e.id}
+                        onClick={handleOnClick}
+                        variant="contained"
+                      >
+                        Rechazar
+                      </Button>
+
+                      <Button type="submit" variant="contained">
+                        Confirmar
+                      </Button>
+                    </form>
+                  ) : (
+                    console.log("asd")
+                  )}
+                </Box>
+              </Box>
+            );
+          })
+          // })
+        )}
+      </Box>
       <div style={styles.paginadoDiv}>
         <button style={styles.btnPaginado} onClick={handleAnterior}>
           {"<"}
