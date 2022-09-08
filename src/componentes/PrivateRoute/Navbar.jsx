@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/navBar.css";
 import SearchBar from "../SearchBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -92,6 +92,8 @@ export default function Navbar() {
     logout();
     navigate("/");
   };
+  const location = useLocation();
+  const currentCategory = useParams();
 
   //PARA TRAER LA FOTO DEL USUARIO
   const estado = useSelector((state) => state.filter);
@@ -120,8 +122,11 @@ export default function Navbar() {
           ChangApp
         </Link>
       </Typography>
-
-      <SearchBar style={styles.button} />
+      {location.pathname !== "/home/todos" &&
+      location.pathname !== "/home" &&
+      location.pathname !== `/home/${currentCategory.name}` ? null : (
+        <SearchBar style={styles.button} />
+      )}
       <div>
         <Link style={{ textDecoration: "none" }} to="/home/createService">
           <Button style={styles.button}>Crear Servicio</Button>
