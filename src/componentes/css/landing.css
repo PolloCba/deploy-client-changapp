@@ -1,5 +1,10 @@
 .landing-welcome {
-    background-image: url('../../assets/workers-landing.jpg');
+    background: linear-gradient(
+        to top,
+        rgba(180, 180, 179, 0.835),
+        rgba(201, 197, 222, 0.79)
+      ),
+      url("../../assets/workers-landing.jpg");
     height: 100vh;
     background-size: cover;
     background-repeat: no-repeat;
