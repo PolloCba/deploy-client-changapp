@@ -165,7 +165,16 @@ export default function StateRequest() {
   };
 
   return (
-    <Box sx={{ width: "70%" }}>
+    <Box
+      sx={{
+        width: "70%",
+        height: "88vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexDirection: "column",
+      }}
+    >
       <Toaster position="top-center" reverseOrder={false} />
       {filterEmail.length === 0 ? (
         <Box
