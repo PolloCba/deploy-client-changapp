@@ -85,12 +85,7 @@ export default function AllCategorys() {
           userSlice?.map((e) => {
             return (
               <div className="cards-services" key={e.id}>
-                <img
-                  src={e.user?.img}
-                  alt="No tiene imagen de perfil"
-                  width="64px"
-                  height="64px"
-                />
+                <img src={e.user?.img} alt="No tiene imagen de perfil" />
                 <h3>Servicio: {e.name}</h3>
                 <h4>{e.user?.firstName}</h4>
 
@@ -134,7 +129,7 @@ export default function AllCategorys() {
           {">"}
         </Button>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
