@@ -97,6 +97,9 @@ const reducer = (state = initialStates, action) => {
           return 0;
         });
       }
+      if (action.payload === "neutro") {
+        filterServices = allSer;
+      }
       return {
         ...state,
         services: filterServices,
