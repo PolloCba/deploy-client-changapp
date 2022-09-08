@@ -60,6 +60,10 @@
   padding-bottom: 15px;
   background-color: #1f293700;
   color: aliceblue;
+  scrollbar-color: #6969dd #e0e0e0;
+  max-height: 720px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .filter-category {
