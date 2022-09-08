@@ -228,7 +228,7 @@ export default function PublicProfile() {
                   <Box>
                     <img
                       style={{
-                        height: "100%",
+                        height: "100px",
                         width: "100px",
                         borderTopLeftRadius: "10px",
                         borderBottomLeftRadius: "10px",
