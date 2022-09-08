@@ -8,8 +8,7 @@ import styles from "./Request/style";
 import { Box, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import userImg from "../../user.png";
-import error from '../../404.png'
-
+import error from "../../404.png";
 
 export default function ProfileRev() {
   const { user } = useAuth();
@@ -51,54 +50,44 @@ export default function ProfileRev() {
   const stylesJP = {
     container: {
       width: "70%",
-      height:'88vh',
+      height: "88vh",
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      flexDirection:'column'
+      flexDirection: "column",
     },
   };
 
   return (
     <Box style={stylesJP.container}>
-
-      <Box sx={{
+      <Box
+        sx={{
           width: "95%",
-          height:'80%',
+          height: "80%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           margin: "4%",
-        }}>
+        }}
+      >
         {allReviews?.length === 0 ? (
           <Box
-          className="empty-container"
-          sx={{
-            textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Box className="low-section" pl={2}>
-              {
-                <img
-                  src={error}
-                  alt="?"
-                  width="182px"
-                  height="182px"
-                />
-              }
-            <Typography variant="h6" mb={5}>
-              Para ver los estados del servicio, primero debes publicar uno,
-              dirigete a la seccion{" "}
-              <NavLink className="linkk" to="/home/createService">
-                publicar servicio
-              </NavLink>
-            </Typography>
+            className="empty-container"
+            sx={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box className="low-section" pl={2}>
+              {<img src={error} alt="?" width="182px" height="182px" />}
+              <Typography variant="h6" mb={5}>
+                Por el momento no has recibido ninguna reseña...
+              </Typography>
+            </Box>
           </Box>
-        </Box>
         ) : (
           revSlice?.map((e) => {
             return (
@@ -157,7 +146,7 @@ export default function ProfileRev() {
           })
         )}
       </Box>
-      
+
       <Box sx={styles.paginadoDiv}>
         <button style={styles.btnPaginado} onClick={handleAnterior}>
           {"<"}
