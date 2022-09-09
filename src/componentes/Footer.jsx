@@ -142,19 +142,38 @@ export default function Footer() {
         <h3 className="formulario__titulo">Contactanos</h3>
         <div className="formulario__campo">
           <label>&nbsp;Nombre</label>
-          <input name="name" type="text" className="formulario__nombre" />
+          <input
+            name="name"
+            type="text"
+            className="formulario__nombre"
+            required
+          />
         </div>
         <div className="formulario__campo">
           <label>&nbsp;Email</label>
-          <input name="email" type="email" className="formulario__nombre" />
+          <input
+            name="email"
+            type="email"
+            className="formulario__nombre"
+            required
+          />
         </div>
         <div className="formulario__campo">
           <label>&nbsp;Asunto</label>
-          <input name="subject" type="text" className="formulario__nombre" />
+          <input
+            name="subject"
+            type="text"
+            className="formulario__nombre"
+            required
+          />
         </div>
         <div className="formulario__campo">
           <label>&nbsp;Escribe tu mensaje</label>
-          <textarea name="message" className="formulario__texto"></textarea>
+          <textarea
+            name="message"
+            className="formulario__texto"
+            required
+          ></textarea>
         </div>
         <input
           type="submit"
